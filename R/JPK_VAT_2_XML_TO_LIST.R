@@ -67,7 +67,7 @@ JPK_VAT_2_XML_TO_LIST <- function(file_xml = "", file_xlsx = "", warningInsteadE
   ZakupWiersz<- JPK_VAT2[grep(names(JPK_VAT2), pattern = "^ZakupWiersz$")]
   ZakupWiersz <- bind_rows(ZakupWiersz)
 
-  ZakupWiersz <- rmoCharNULLfromDF(ZakupWiersz)
+  ZakupWiersz <- rmCharNULLfromDF(ZakupWiersz)
   ZakupWiersz <- convertCharColsToNum(ZakupWiersz)
 
   ZakupyWiersz <- AddMissingColsAndFillWith0(ZakupyWiersz, ALL_COLS_ZakupyWiersz)
