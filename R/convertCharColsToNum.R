@@ -1,5 +1,4 @@
-# Hello, world!
-#
+
 # This is an function that convert character cols from dataframe to numeric.
 # You have to pass colnames to convert as argument colsToConv
 #
