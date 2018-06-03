@@ -33,8 +33,8 @@ JPK_FA_XML_TO_LIST <- function(file_xml = "", file_xlsx = "") {
   Faktura <- JPK_FA[grep(names(JPK_FA), pattern = "^Faktura$")]
   Faktura <- bind_rows(Faktura)
 
-  Faktura <- removeCharNULLfromDF(Faktura)
-  Faktura <- convertCharKcoltoNumeric(Faktura, colsToConv = c("P_13_1",
+  Faktura <- rmCharNULLfromDF(Faktura)
+  Faktura <- convertCharColsToNum(Faktura, colsToConv = c("P_13_1",
                                                               "P_13_2",
                                                               "P_13_4",
                                                               "P_13_7",
@@ -65,8 +65,8 @@ JPK_FA_XML_TO_LIST <- function(file_xml = "", file_xlsx = "") {
   FakturaWiersz <- JPK_FA[grep(names(JPK_FA), pattern = "^FakturaWiersz$")]
   FakturaWiersz <- bind_rows(FakturaWiersz)
 
-  FakturaWiersz <- removeCharNULLfromDF(FakturaWiersz)
-  FakturaWiersz <- convertCharKcoltoNumeric(FakturaWiersz, colsToConv = c("P_8B",
+  FakturaWiersz <- rmCharNULLfromDF(FakturaWiersz)
+  FakturaWiersz <- convertCharColsToNum(FakturaWiersz, colsToConv = c("P_8B",
                                                                           "P_9A",
                                                                           "P_11",
                                                                           "P_11A"

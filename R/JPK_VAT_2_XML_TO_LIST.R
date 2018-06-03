@@ -47,8 +47,8 @@ JPK_VAT_2_XML_TO_LIST <- function(file_xml = "", file_xlsx = "", warningInsteadE
   SprzedazWiersz <- JPK_VAT2[grep(names(JPK_VAT2), pattern = "^SprzedazWiersz$")]
   SprzedazWiersz <- bind_rows(SprzedazWiersz)
 
-  SprzedazWiersz <- removeCharNULLfromDF(SprzedazWiersz)
-  SprzedazWiersz <- convertCharKcoltoNumeric(SprzedazWiersz)
+  SprzedazWiersz <- rmCharNULLfromDF(SprzedazWiersz)
+  SprzedazWiersz <- convertCharColsToNum(SprzedazWiersz)
 
   SprzedazWiersz <- AddMissingColsAndFillWith0(SprzedazWiersz, ALL_COLS_SprzedazWiersz)
 
@@ -67,8 +67,8 @@ JPK_VAT_2_XML_TO_LIST <- function(file_xml = "", file_xlsx = "", warningInsteadE
   ZakupWiersz<- JPK_VAT2[grep(names(JPK_VAT2), pattern = "^ZakupWiersz$")]
   ZakupWiersz <- bind_rows(ZakupWiersz)
 
-  ZakupWiersz <- removeCharNULLfromDF(ZakupWiersz)
-  ZakupWiersz <- convertCharKcoltoNumeric(ZakupWiersz)
+  ZakupWiersz <- rmoCharNULLfromDF(ZakupWiersz)
+  ZakupWiersz <- convertCharColsToNum(ZakupWiersz)
 
   ZakupyWiersz <- AddMissingColsAndFillWith0(ZakupyWiersz, ALL_COLS_ZakupyWiersz)
 
