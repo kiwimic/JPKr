@@ -74,12 +74,18 @@ ALL_COLS_ZakupyWiersz <- c(
 
 AddMissingColsAndFillWith0 <- function(df, ALL_COLS) {
 
-  missing_cols <- setdiff(ALL_COLS, colnames(df))
-  missing_cols_filled_with_0 <- setNames(data.frame(matrix(ncol = length(missing_cols), nrow = nrow(df))),
-                                         missing_cols)
-  missing_cols_filled_with_0[is.na(missing_cols_filled_with_0)] <- 0
+  if (sum(colnames(df) %in% ALL_COLS) == length(ALL_COLS)) {
+    ret <- df[,ALL_COLS]
+  } else {
+    missing_cols <- setdiff(ALL_COLS, colnames(df))
+    missing_cols_filled_with_0 <- setNames(data.frame(matrix(ncol = length(missing_cols), nrow = nrow(df))),
+                                           missing_cols)
+    missing_cols_filled_with_0[is.na(missing_cols_filled_with_0)] <- 0
 
-  df2 <- bind_cols(df, missing_cols_filled_with_0)
-  df2 <- df2[,ALL_COLS]
-  return(df2)
+    df2 <- bind_cols(df, missing_cols_filled_with_0)
+    df2 <- df2[,ALL_COLS]
+    ret <- df2
+  }
+ return(ret)
+
 }
