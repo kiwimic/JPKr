@@ -1,0 +1,128 @@
+# Hello, world!
+#
+# This is an function that convert character cols from dataframe to numeric.
+# You have to pass colnames to convert as argument colsToConv
+#
+# You can learn more about package authoring with RStudio at:
+#
+#   http://r-pkgs.had.co.nz/
+#
+# Some useful keyboard shortcuts for package authoring:
+#
+#   Build and Reload Package:  'Ctrl + Shift + B'
+#   Check Package:             'Ctrl + Shift + E'
+#   Test Package:              'Ctrl + Shift + T'
+library(xml2)
+library(dplyr)
+library(tibble)
+library(stringr)
+library(writexl)
+
+
+JPK_VAT_2_XML_TO_LIST <- function(file_xml = "", file_xlsx = "") {
+  start <- Sys.time()
+
+  if (length(grep(file_xlsx, pattern = "(\\.xlsx)$")) == 0) {
+    file_xlsx <- paste0(file_xlsx, ".xlsx")
+  }
+
+  JPK_VAT2 <- xml2::read_xml(x = file_xml) %>%
+    as_list() -> JPK_VAT2
+
+  ##1. Nagłowek###########
+  Naglowek <- JPK_VAT2["Naglowek"]
+  Naglowek_DF <- as.data.frame(Naglowek)
+
+  ##2. Podmiot1###############
+  Podmiot1a <- JPK_VAT2["Podmiot1"][["Podmiot1"]][["IdentyfikatorPodmiotu"]]
+  Podmiot1b <- JPK_VAT2["Podmiot1"][["Podmiot1"]][["AdresPodmiotu"]]
+  Podmiot1_DF <- bind_cols(
+    bind_rows(unlist(Podmiot1a)),
+    bind_rows(unlist(Podmiot1b))
+  )
+
+  ##3. SprzedazWiersz####################################
+
+  SprzedazWiersz <- JPK_VAT2[grep(names(JPK_VAT2), pattern = "^SprzedazWiersz$")]
+  SprzedazWiersz <- bind_rows(SprzedazWiersz)
+
+  SprzedazWiersz <- removeCharNULLfromDF(SprzedazWiersz)
+  SprzedazWiersz <- convertCharKcoltoNumeric(SprzedazWiersz)
+
+
+  ##4. SprzedazCtrl##
+  SprzedazCtrl <- JPK_VAT2["SprzedazCtrl"] %>%
+    unname() %>%
+    unlist() %>%
+    t() %>%
+    as.data.frame(stringsAsFactors = F)
+
+
+  ##5. ZakupyWiersz#############
+
+  ZakupWiersz<- JPK_VAT2[grep(names(JPK_VAT2), pattern = "^ZakupWiersz$")]
+  ZakupWiersz <- bind_rows(ZakupWiersz)
+
+  ZakupWiersz <- removeCharNULLfromDF(ZakupWiersz)
+  ZakupWiersz <- convertCharKcoltoNumeric(ZakupWiersz)
+
+  ##6. ZakupCtrl##
+  ZakupCtrl <- JPK_VAT2["ZakupCtrl"] %>%
+    unname() %>%
+    unlist() %>%
+    t() %>%
+    as.data.frame(stringsAsFactors = F)
+
+
+  ##7. Testy########
+  ##7.1 Sprzedaz###############
+  ##7.1.1 Liczba wierszy#######
+  if (as.numeric(SprzedazCtrl$LiczbaWierszySprzedazy[1]) != nrow(SprzedazWiersz)) {
+    stop(sprintf("Liczba wierszy z SprzedazCtrl to %d, natomiast liczba wierszy z SprzedazWiersz to %d ",
+                 as.numeric(SprzedazCtrl$LiczbaWierszySprzedazy[1]),
+                 nrow(SprzedazWiersz)))
+    ##7.1.2 Podatek należny#######
+
+  }
+  ##7.2 Zakup#################
+  ##7.2.1 Liczba wierszy#######
+  if (as.numeric(ZakupCtrl$LiczbaWierszyZakupow[1]) != nrow(ZakupWiersz)) {
+    stop(sprintf("Liczba wierszy z SprzedazCtrl to %d, natomiast liczba wierszy z SprzedazWiersz to %d ",
+                 as.numeric(ZakupCtrl$LiczbaWierszyZakupow[1]),
+                 nrow(ZakupWiersz)))
+  }
+  ##7.2.2 Podatek należny#######
+
+  ##8. Zapis do .Rdata##############
+  Lista_JPK_VAT_2 <- list(
+    Naglowek = Naglowek_DF,
+    Podmiot1 = Podmiot1_DF,
+    SprzedazWiersz = SprzedazWiersz,
+    SprzedazCtrl = SprzedazCtrl,
+    ZakupWiersz = ZakupWiersz,
+    ZakupCtrl = ZakupCtrl
+  )
+
+  save(Lista_JPK_VAT_2,
+       file = paste0(gsub(file_xlsx,
+                          pattern = "\\.",
+                          replacement = ""),
+                     ".Rdata"))
+  ##9. Zapis do XLSX ####
+  # xlsx::write.xlsx(x = Naglowek_DF, file = file_xlsx, sheetName = "Naglowek")
+  # xlsx::write.xlsx(x = Podmiot1_DF, file = file_xlsx, sheetName = "Podmiot1", append = T)
+  # xlsx::write.xlsx(x = SprzedazWiersz, file = file_xlsx, sheetName = "SprzedazWiersz", append = T)
+  # xlsx::write.xlsx(x = SprzedazCtrl, file = file_xlsx, sheetName = "SprzedazCtrl", append = T)
+  # xlsx::write.xlsx(x = ZakupWiersz, file = file_xlsx, sheetName = "ZakupWiersz", append = T)
+  # xlsx::write.xlsx(x = ZakupCtrl, file = file_xlsx, sheetName = "ZakupCtrl", append = T)
+
+  ##9.1 #### Wywalenie potrzeby korzystania z javy. (Wersja writexl z githuba)####
+  writexl::write_xlsx(x = Lista_JPK_VAT_2, path = file_xlsx)
+
+  ##10. Komunikaty po zakończeniu funkcji ####
+  print(paste0("Plik zapisano w lokalizacji: ", paste0(getwd(), "/", file_xlsx)))
+  print("Konwersja z pliku xml do xlsx trwała: ")
+  print(Sys.time() - start)
+
+  return(Lista_JPK_VAT_2)
+}
