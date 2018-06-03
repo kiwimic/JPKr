@@ -4,7 +4,7 @@ Title: Tools for analyzing polish JPK (Jednolity plik kontrolny) data
 Version: 0.1.0
 Author: Michał Siwik
 Maintainer: The package maintainer <michalsiwik@gmail.com>
-Description: This is my first package. Goal of it it's to create tools which will
+Description: This is my first R package. Goal of it it's to create tools which will
     help auditors and analyst to analize JPK data. Idea is to write all code and description in English, but also make help file and description in Polish language
 License: What license is it under? I don't know for now :)
 Encoding: UTF-8
