@@ -46,7 +46,7 @@ JPK_FA_XML_TO_LIST <- function(file_xml = "", file_xlsx = "") {
   Faktura <- AddMissingColsAndFillWith0(Faktura, ALL_COLS_Faktura)
 
 
-  ##4. FakturaCtrl##
+  ##4. FakturaCtrl####
   FakturaCtrl <- JPK_FA["FakturaCtrl"] %>%
     unname() %>%
     unlist() %>%
@@ -77,7 +77,7 @@ JPK_FA_XML_TO_LIST <- function(file_xml = "", file_xlsx = "") {
 
   FakturaWiersz <- AddMissingColsAndFillWith0(FakturaWiersz, ALL_COLS_FakturaWiersz)
 
-  ##7. FakturaWierszCtrl##
+  ##7. FakturaWierszCtrl####
   FakturaWierszCtrl <- JPK_FA["FakturaWierszCtrl"] %>%
     unname() %>%
     unlist() %>%
@@ -89,22 +89,31 @@ JPK_FA_XML_TO_LIST <- function(file_xml = "", file_xlsx = "") {
 
   #8. Testy########
   #8.1 Faktura###############
-  #8.1.1 Liczba wierszy#######
-  if (as.numeric(FakturaCtrl$LiczbaFaktur[1]) != nrow(Faktura)) {
-    stop(sprintf("Liczba faktur z 'FakturyCtrl' to %d, natomiast liczba faktur z 'Faktury' to %d ",
-                 as.numeric(FakturaCtrl$LiczbaFaktur[1]),
-                 nrow(Faktura)))
-  }
-  ##8.1.2 Podatek należny#######
+  #8.1.1 Liczba faktur#######
 
+  Test_ValidateControlSums(V1 = FakturaCtrl$LiczbaFaktur[1],
+                           V2 = nrow(Faktura),
+                           msg = "Liczba Faktur z FakturaCtrl wynosi %d, natomiast liczba faktur z Faktura to %d",
+                           onlyWarning = warningInsteadError)
 
-  ##8.2 Zakup#################
+  ##8.1.2 Wartość faktur#######
+  ###DOROBIC BO OBLICZENIA!:)####
+  Test_ValidateControlSums(V1 = FakturaCtrl$LiczbaFaktur[1],
+                           V2 = nrow(Faktura),
+                           msg = "Liczba Faktur z FakturaCtrl wynosi %d, natomiast liczba faktur z Faktura to %d",
+                           onlyWarning = warningInsteadError)
+
+  ##8.2 FaktraWiersz#################
+
   ##8.2.1 Liczba wierszy#######
-  # if (as.numeric(ZakupCtrl$LiczbaWierszyZakupow[1]) != nrow(ZakupWiersz)) {
-  #   stop(sprintf("Liczba wierszy z SprzedazCtrl to %d, natomiast liczba wierszy z SprzedazWiersz to %d ",
-  #           as.numeric(ZakupCtrl$LiczbaWierszyZakupow[1]),
-  #           nrow(ZakupWiersz)))
-  # }
+
+  Test_ValidateControlSums(V1 = FakturaWierszCtrl$LiczbaWierszyFaktur[1],
+                           V2 = nrow(FakturaWiersz),
+                           msg = "Liczba wierszy z FakturaWierszCtrl wynosi %d, natomiast liczba wierszy z FakturaWierszy to %d",
+                           onlyWarning = warningInsteadError)
+
+  #WartoscWierszyFaktur
+
   # #8.2.2 Podatek należny#######
 
   ##9. Zapis do .Rdata##############
