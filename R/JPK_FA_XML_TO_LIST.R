@@ -43,6 +43,7 @@ JPK_FA_XML_TO_LIST <- function(file_xml = "", file_xlsx = "") {
                                                               "P_14_4",
                                                               "P_15"
   ))
+  Faktura <- AddMissingColsAndFillWith0(Faktura, ALL_COLS_Faktura)
 
 
   ##4. FakturaCtrl##
@@ -72,6 +73,7 @@ JPK_FA_XML_TO_LIST <- function(file_xml = "", file_xlsx = "") {
                                                                           "P_11A"
   ))
 
+  FakturaWiersz <- AddMissingColsAndFillWith0(FakturaWiersz, ALL_COLS_FakturaWiersz)
 
   ##7. FakturaWierszCtrl##
   FakturaWierszCtrl <- JPK_FA["FakturaWierszCtrl"] %>%

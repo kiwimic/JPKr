@@ -8,10 +8,7 @@
 #ZakupyWiersz
 #ZakupyCtrl
 #
-#Na ten moment testy do sum kontrolnych są zagnieższone w funkcji konwertującej
-#i generują error co powoduje, że nie wczytamy pliku JPK_VAT_2,
-#który ma błędnie obliczone sumy kontrolnę
-#
+
 
 library(xml2)
 library(dplyr)

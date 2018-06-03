@@ -1,18 +1,4 @@
-# Hello, world!
-#
-# This is an example function named 'hello'
-# which prints 'Hello, world!'.
-#
-# You can learn more about package authoring with RStudio at:
-#
-#   http://r-pkgs.had.co.nz/
-#
-# Some useful keyboard shortcuts for package authoring:
-#
-#   Build and Reload Package:  'Ctrl + Shift + B'
-#   Check Package:             'Ctrl + Shift + E'
-#   Test Package:              'Ctrl + Shift + T'
-
+###JPK_VAT_2#######
 ALL_COLS_SprzedazWiersz <- c(
   "LpSprzedazy",
   "NrKontrahenta",
@@ -53,6 +39,7 @@ ALL_COLS_SprzedazWiersz <- c(
   "K_39"
 )
 
+###JPK_VAT_2###
 ALL_COLS_ZakupyWiersz <- c(
   "LpZakupu",
   "NrDostawcy",
@@ -70,6 +57,74 @@ ALL_COLS_ZakupyWiersz <- c(
   "K_49",
   "K_50"
 )
+
+###JPK_FA#####
+ALL_COLS_Faktura <- c("P_1",
+                      "P_2A",
+                      "P_3A",
+                      "P_3B",
+                      "P_3C",
+                      "P_3D",
+                      "P_4A",
+                      "P_4B",
+                      "P_5A",
+                      "P_5B",
+                      "P_6",
+                      "P_13_1",
+                      "P_14_1",
+                      "P_13_2",
+                      "P_14_2",
+                      "P_13_3",
+                      "P_14_3",
+                      "P_13_4",
+                      "P_14_4",
+                      "P_13_5",
+                      "P_14_5",
+                      "P_13_6",
+                      "P_13_7",
+                      "P_15",
+                      "P_16",
+                      "P_17",
+                      "P_18",
+                      "P_19",
+                      "P_19A",
+                      "P_19B",
+                      "P_19C",
+                      "P_20",
+                      "P_20A",
+                      "P_20B",
+                      "P_21",
+                      "P_21A",
+                      "P_21B",
+                      "P_21C",
+                      "P_22A",
+                      "P_22B",
+                      "P_22C",
+                      "P_23",
+                      "P_106E_2",
+                      "P_106E_3",
+                      "P_106E_3A",
+                      "RodzajFaktury",
+                      "PrzyczynaKorekty",
+                      "NrFaKorygowanej",
+                      "OkresFaKorygowanej",
+                      "ZALZaplata",
+                      "ZALPodatek"
+                      )
+
+###JPK_FA#####
+ALL_COLS_FakturaWiersz <- c("P_2B",
+                            "P_7",
+                            "P_8A",
+                            "P_8B",
+                            "P_9A",
+                            "P_9B",
+                            "P_10",
+                            "P_11",
+                            "P_11A",
+                            "P_12"
+                            )
+
 
 
 AddMissingColsAndFillWith0 <- function(df, ALL_COLS) {
