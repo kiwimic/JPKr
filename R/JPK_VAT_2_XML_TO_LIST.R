@@ -49,13 +49,16 @@ JPK_VAT_2_XML_TO_LIST <- function(file_xml = "", file_xlsx = "") {
   SprzedazWiersz <- removeCharNULLfromDF(SprzedazWiersz)
   SprzedazWiersz <- convertCharKcoltoNumeric(SprzedazWiersz)
 
+  SprzedazWiersz <- AddMissingColsAndFillWith0(SprzedazWiersz, ALL_COLS_SprzedazWiersz)
 
   ##4. SprzedazCtrl##
   SprzedazCtrl <- JPK_VAT2["SprzedazCtrl"] %>%
     unname() %>%
     unlist() %>%
     t() %>%
-    as.data.frame(stringsAsFactors = F)
+    as.tibble() %>%
+    mutate(LiczbaWierszySprzedazy = as.numeric(LiczbaWierszySprzedazy),
+           PodatekNalezny = as.numeric(PodatekNalezny))
 
 
   ##5. ZakupyWiersz#############
@@ -71,19 +74,32 @@ JPK_VAT_2_XML_TO_LIST <- function(file_xml = "", file_xlsx = "") {
     unname() %>%
     unlist() %>%
     t() %>%
-    as.data.frame(stringsAsFactors = F)
+    as.tibble() %>%
+    mutate(LiczbaWierszyZakupow = as.numeric(LiczbaWierszyZakupow),
+           PodatekNaliczony = as.numeric(PodatekNaliczony))
+
 
 
   ##7. Testy########
   ##7.1 Sprzedaz###############
   ##7.1.1 Liczba wierszy#######
-  if (as.numeric(SprzedazCtrl$LiczbaWierszySprzedazy[1]) != nrow(SprzedazWiersz)) {
+  if (SprzedazCtrl$LiczbaWierszySprzedazy[1] != nrow(SprzedazWiersz)) {
     stop(sprintf("Liczba wierszy z SprzedazCtrl to %d, natomiast liczba wierszy z SprzedazWiersz to %d ",
-                 as.numeric(SprzedazCtrl$LiczbaWierszySprzedazy[1]),
+                 SprzedazCtrl$LiczbaWierszySprzedazy[1],
                  nrow(SprzedazWiersz)))
-    ##7.1.2 Podatek należny#######
-
   }
+      ##7.1.2 Podatek należny#######
+  SprzedazWiersz_PodatekNalezny <- SprzedazWiersz %>%
+    mutate(Podatek_Nalezny_Razem = K_16+K_18+K_20+K_24+K_26+K_28+K_30+K_33+K_35+K_36+K_38+K_39) %>%
+    select(Podatek_Nalezny_Razem) %>%
+    summary(Podatek_Nalezny_Razem = sum(Podatek_Nalezny_Razem, na.rm = T))
+
+  if (SprzedazCtrl$PodatekNalezny[1] != SprzedazWiersz_PodatekNalezny$Podatek_Nalezny_Razem[1]) {
+    stop(sprintf("Podatek należny z SprzedazCtrl to %d, natomiast podatek należny z SprzedazWiersz to %d ",
+                 SprzedazCtrl$PodatekNalezny[1],
+                 sum(SprzedazWiersz_PodatekNalezny$Podatek_Nalezny_Razem)))
+  }
+
   ##7.2 Zakup#################
   ##7.2.1 Liczba wierszy#######
   if (as.numeric(ZakupCtrl$LiczbaWierszyZakupow[1]) != nrow(ZakupWiersz)) {
