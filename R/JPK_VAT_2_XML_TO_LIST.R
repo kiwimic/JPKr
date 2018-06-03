@@ -48,7 +48,8 @@ JPK_VAT_2_XML_TO_LIST <- function(file_xml = "", file_xlsx = "", warningInsteadE
   SprzedazWiersz <- bind_rows(SprzedazWiersz)
 
   SprzedazWiersz <- rmCharNULLfromDF(SprzedazWiersz)
-  SprzedazWiersz <- convertCharColsToNum(SprzedazWiersz)
+  SprzedazWiersz <- convertCharColsToNum(SprzedazWiersz,
+                                         colsToConv = colnames(SprzedazWiersz)[grep(colnames(SprzedazWiersz), pattern = "^K_")])
 
   SprzedazWiersz <- AddMissingColsAndFillWith0(SprzedazWiersz, ALL_COLS_SprzedazWiersz)
 
@@ -68,9 +69,10 @@ JPK_VAT_2_XML_TO_LIST <- function(file_xml = "", file_xlsx = "", warningInsteadE
   ZakupWiersz <- bind_rows(ZakupWiersz)
 
   ZakupWiersz <- rmCharNULLfromDF(ZakupWiersz)
-  ZakupWiersz <- convertCharColsToNum(ZakupWiersz)
+  ZakupWiersz <- convertCharColsToNum(ZakupWiersz,
+                                      colsToConv = colnames(ZakupWiersz)[grep(colnames(ZakupWiersz), pattern = "^K_")])
 
-  ZakupyWiersz <- AddMissingColsAndFillWith0(ZakupyWiersz, ALL_COLS_ZakupyWiersz)
+  ZakupyWiersz <- AddMissingColsAndFillWith0(ZakupWiersz, ALL_COLS_ZakupyWiersz)
 
   ##6. ZakupCtrl####
   ZakupCtrl <- JPK_VAT2["ZakupCtrl"] %>%
@@ -97,7 +99,7 @@ JPK_VAT_2_XML_TO_LIST <- function(file_xml = "", file_xlsx = "", warningInsteadE
     SprzedazWiersz_PodatekNalezny <- SprzedazWiersz %>%
       mutate(Podatek_Nalezny_Razem = K_16+K_18+K_20+K_24+K_26+K_28+K_30+K_33+K_35+K_36+K_38+K_39) %>%
       select(Podatek_Nalezny_Razem) %>%
-      summarise(Podatek_Nalezny_Razem = sum(Podatek_Nalezny_Razem, na.rm = T))
+      summarise(Podatek_Nalezny_Razem = round(sum(Podatek_Nalezny_Razem, na.rm = T),2))
 
     if (SprzedazCtrl$PodatekNalezny[1] != SprzedazWiersz_PodatekNalezny$Podatek_Nalezny_Razem[1]) {
       warning(sprintf("Podatek należny z SprzedazCtrl to %.2f, natomiast podatek należny z SprzedazWiersz to %.2f ",
@@ -114,11 +116,11 @@ JPK_VAT_2_XML_TO_LIST <- function(file_xml = "", file_xlsx = "", warningInsteadE
     }
     ##7.2.2 Podatek naliczony#######
     ZakupyWiersz_PodatekNaliczony <- ZakupyWiersz %>%
-      mutate(Podatek_Naliczony_Razem = K_16+K_18+K_20+K_24+K_26+K_28+K_30+K_33+K_35+K_36+K_38+K_39) %>%
+      mutate(Podatek_Naliczony_Razem = K_44 + K_46 + K_47+K_48+K_49+K_50) %>%
       select(Podatek_Naliczony_Razem) %>%
-      summarise(Podatek_Naliczony_Razem = sum(Podatek_Naliczony_Razem, na.rm = T))
+      summarise(Podatek_Naliczony_Razem = round(sum(Podatek_Naliczony_Razem, na.rm = T),2))
 
-    if (ZakupyCtrl$PodatekNaliczony[1] != ZakupyWiersz_PodatekNaliczony$Podatek_Naliczony_Razem[1]) {
+    if (ZakupCtrl$PodatekNaliczony[1] != ZakupyWiersz_PodatekNaliczony$Podatek_Naliczony_Razem[1]) {
       warning(sprintf("Podatek naliczony z ZakupyCtrl to %.2f, natomiast podatek naliczony z ZakupyWiersz to %.2f ",
                    ZakupCtrl$PodatekNaliczony[1],
                    sum(ZakupyWiersz_PodatekNaliczony$Podatek_Naliczony_Razem)))
@@ -138,7 +140,7 @@ JPK_VAT_2_XML_TO_LIST <- function(file_xml = "", file_xlsx = "", warningInsteadE
     SprzedazWiersz_PodatekNalezny <- SprzedazWiersz %>%
       mutate(Podatek_Nalezny_Razem = K_16+K_18+K_20+K_24+K_26+K_28+K_30+K_33+K_35+K_36+K_38+K_39) %>%
       select(Podatek_Nalezny_Razem) %>%
-      summarise(Podatek_Nalezny_Razem = sum(Podatek_Nalezny_Razem, na.rm = T))
+      summarise(Podatek_Nalezny_Razem = round(sum(Podatek_Nalezny_Razem, na.rm = T),2))
 
     if (SprzedazCtrl$PodatekNalezny[1] != SprzedazWiersz_PodatekNalezny$Podatek_Nalezny_Razem[1]) {
       stop(sprintf("Podatek należny z SprzedazCtrl to %.2f, natomiast podatek należny z SprzedazWiersz to %.2f ",
@@ -157,7 +159,7 @@ JPK_VAT_2_XML_TO_LIST <- function(file_xml = "", file_xlsx = "", warningInsteadE
     ZakupyWiersz_PodatekNaliczony <- ZakupyWiersz %>%
       mutate(Podatek_Naliczony_Razem = K_16+K_18+K_20+K_24+K_26+K_28+K_30+K_33+K_35+K_36+K_38+K_39) %>%
       select(Podatek_Naliczony_Razem) %>%
-      summarise(Podatek_Naliczony_Razem = sum(Podatek_Naliczony_Razem, na.rm = T))
+      summarise(Podatek_Naliczony_Razem = round(sum(Podatek_Naliczony_Razem, na.rm = T),2))
 
     if (ZakupyCtrl$PodatekNaliczony[1] != ZakupyWiersz_PodatekNaliczony$Podatek_Naliczony_Razem[1]) {
       stop(sprintf("Podatek naliczony z ZakupyCtrl to %.2f, natomiast podatek naliczony z ZakupyWiersz to %.2f ",
