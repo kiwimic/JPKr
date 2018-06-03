@@ -51,7 +51,9 @@ JPK_FA_XML_TO_LIST <- function(file_xml = "", file_xlsx = "") {
     unname() %>%
     unlist() %>%
     t() %>%
-    as.data.frame(stringsAsFactors = F)
+    as.tibble() %>%
+    mutate(LiczbaFaktur =  as.numeric(LiczbaFaktur),
+           WartoscFaktur = as.numeric(WartoscFaktur))
 
 
   ##5. StawkiPodatku#############
@@ -80,8 +82,9 @@ JPK_FA_XML_TO_LIST <- function(file_xml = "", file_xlsx = "") {
     unname() %>%
     unlist() %>%
     t() %>%
-    as.data.frame(stringsAsFactors = F)
-
+    as.tibble() %>%
+    mutate(LiczbaWierszyFaktur = as.numeric(LiczbaWierszyFaktur),
+           WartoscWierszyFaktur = as.numeric(WartoscWierszyFaktur))
 
 
   #8. Testy########
