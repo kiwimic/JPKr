@@ -84,87 +84,41 @@ JPK_VAT_2_XML_TO_LIST <- function(file_xml = "", file_xlsx = "", warningInsteadE
 
   ##7. Testy########
   ##7.1.0 Uwaga jeśli warningInsteadError jest TRUE, to wtedy funkcja się wykona i da tylko warning ####
+  ##7.1.1 Liczba Wierszy Sprzedaz ####
+  Test_ValidateControlSums(V1 = SprzedazCtrl$LiczbaWierszySprzedazy[1],
+                           V2 = nrow(SprzedazWiersz),
+                           msg = "Liczba wierszy sprzedaży z SprzedazCtrl wynosi %d, natomiast liczba wierszy sprzedaży z SprzedazWiersz to %d",
+                           onlyWarning = warningInsteadError)
+  ##7.1.2 Podatek należny#######
+  SprzedazWiersz_PodatekNalezny <- SprzedazWiersz %>%
+    mutate(Podatek_Nalezny_Razem = K_16+K_18+K_20+K_24+K_26+K_28+K_30+K_33+K_35+K_36+K_38+K_39) %>%
+    select(Podatek_Nalezny_Razem) %>%
+    summarise(Podatek_Nalezny_Razem = round(sum(Podatek_Nalezny_Razem, na.rm = T),2))
 
-  if (warningInsteadError) {
-  ###7.1.0.1 Część WARNING####
-    if (SprzedazCtrl$LiczbaWierszySprzedazy[1] != nrow(SprzedazWiersz)) {
-      warning(sprintf("Liczba wierszy z SprzedazCtrl to %d, natomiast liczba wierszy z SprzedazWiersz to %d ",
-                   SprzedazCtrl$LiczbaWierszySprzedazy[1],
-                   nrow(SprzedazWiersz)))
-    }
-    ##7.1.2 Podatek należny#######
-    SprzedazWiersz_PodatekNalezny <- SprzedazWiersz %>%
-      mutate(Podatek_Nalezny_Razem = K_16+K_18+K_20+K_24+K_26+K_28+K_30+K_33+K_35+K_36+K_38+K_39) %>%
-      select(Podatek_Nalezny_Razem) %>%
-      summarise(Podatek_Nalezny_Razem = round(sum(Podatek_Nalezny_Razem, na.rm = T),2))
+  Test_ValidateControlSums(V1 = SprzedazCtrl$PodatekNalezny[1],
+                           V2 = SprzedazWiersz_PodatekNalezny$Podatek_Nalezny_Razem[1],
+                           msg = "Podatek należny z SprzedazCtrl to %.2f, natomiast podatek należny z SprzedazWiersz to %.2f",
+                           onlyWarning = warningInsteadError)
 
-    if (SprzedazCtrl$PodatekNalezny[1] != SprzedazWiersz_PodatekNalezny$Podatek_Nalezny_Razem[1]) {
-      warning(sprintf("Podatek należny z SprzedazCtrl to %.2f, natomiast podatek należny z SprzedazWiersz to %.2f ",
-                   SprzedazCtrl$PodatekNalezny[1],
-                   sum(SprzedazWiersz_PodatekNalezny$Podatek_Nalezny_Razem)))
-    }
 
-    ##7.2 Zakup#################
-    ##7.2.1 Liczba wierszy#######
-    if (as.numeric(ZakupCtrl$LiczbaWierszyZakupow[1]) != nrow(ZakupWiersz)) {
-      warning(sprintf("Liczba wierszy z SprzedazCtrl to %d, natomiast liczba wierszy z SprzedazWiersz to %d ",
-                   as.numeric(ZakupCtrl$LiczbaWierszyZakupow[1]),
-                   nrow(ZakupWiersz)))
-    }
-    ##7.2.2 Podatek naliczony#######
-    ZakupyWiersz_PodatekNaliczony <- ZakupyWiersz %>%
-      mutate(Podatek_Naliczony_Razem = K_44 + K_46 + K_47+K_48+K_49+K_50) %>%
-      select(Podatek_Naliczony_Razem) %>%
-      summarise(Podatek_Naliczony_Razem = round(sum(Podatek_Naliczony_Razem, na.rm = T),2))
+  ##7.2 Zakup#################
+  ##7.2.1 Liczba wierszy#######
+  Test_ValidateControlSums(V1 = ZakupCtrl$LiczbaWierszyZakupow[1],
+                           V2 = nrow(ZakupWiersz),
+                           msg = "Liczba wierszy zakupów z ZakupCtrl wynosi %d, natomiast liczba wierszy zakupów z ZakupWiersz to %d",
+                           onlyWarning = warningInsteadError)
 
-    if (ZakupCtrl$PodatekNaliczony[1] != ZakupyWiersz_PodatekNaliczony$Podatek_Naliczony_Razem[1]) {
-      warning(sprintf("Podatek naliczony z ZakupyCtrl to %.2f, natomiast podatek naliczony z ZakupyWiersz to %.2f ",
-                   ZakupCtrl$PodatekNaliczony[1],
-                   sum(ZakupyWiersz_PodatekNaliczony$Podatek_Naliczony_Razem)))
-    }
+  ##7.2.2 Podatek naliczony#######
+  ZakupyWiersz_PodatekNaliczony <- ZakupyWiersz %>%
+    mutate(Podatek_Naliczony_Razem = K_44 + K_46 + K_47+K_48+K_49+K_50) %>%
+    select(Podatek_Naliczony_Razem) %>%
+    summarise(Podatek_Naliczony_Razem = round(sum(Podatek_Naliczony_Razem, na.rm = T),2))
 
-  } else {
-    ##7.1.0.2 Część ERROR#####
-    ##7.1 Sprzedaz###############
-    ##7.1.1 Liczba wierszy#######
+  Test_ValidateControlSums(V1 = ZakupCtrl$PodatekNaliczony[1],
+                           V2 = ZakupyWiersz_PodatekNaliczony$Podatek_Naliczony_Razem[1],
+                           msg = "Podatek naliczony z ZakupCtrl to %.2f, natomiast podatek naliczony z ZakupyWiersz to %.2f",
+                           onlyWarning = warningInsteadError)
 
-    if (SprzedazCtrl$LiczbaWierszySprzedazy[1] != nrow(SprzedazWiersz)) {
-      stop(sprintf("Liczba wierszy z SprzedazCtrl to %d, natomiast liczba wierszy z SprzedazWiersz to %d ",
-                   SprzedazCtrl$LiczbaWierszySprzedazy[1],
-                   nrow(SprzedazWiersz)))
-    }
-    ##7.1.2 Podatek należny#######
-    SprzedazWiersz_PodatekNalezny <- SprzedazWiersz %>%
-      mutate(Podatek_Nalezny_Razem = K_16+K_18+K_20+K_24+K_26+K_28+K_30+K_33+K_35+K_36+K_38+K_39) %>%
-      select(Podatek_Nalezny_Razem) %>%
-      summarise(Podatek_Nalezny_Razem = round(sum(Podatek_Nalezny_Razem, na.rm = T),2))
-
-    if (SprzedazCtrl$PodatekNalezny[1] != SprzedazWiersz_PodatekNalezny$Podatek_Nalezny_Razem[1]) {
-      stop(sprintf("Podatek należny z SprzedazCtrl to %.2f, natomiast podatek należny z SprzedazWiersz to %.2f ",
-                   SprzedazCtrl$PodatekNalezny[1],
-                   sum(SprzedazWiersz_PodatekNalezny$Podatek_Nalezny_Razem)))
-    }
-
-    ##7.2 Zakup#################
-    ##7.2.1 Liczba wierszy#######
-    if (as.numeric(ZakupCtrl$LiczbaWierszyZakupow[1]) != nrow(ZakupWiersz)) {
-      stop(sprintf("Liczba wierszy z SprzedazCtrl to %d, natomiast liczba wierszy z SprzedazWiersz to %d ",
-                   as.numeric(ZakupCtrl$LiczbaWierszyZakupow[1]),
-                   nrow(ZakupWiersz)))
-    }
-    ##7.2.2 Podatek naliczony#######
-    ZakupyWiersz_PodatekNaliczony <- ZakupyWiersz %>%
-      mutate(Podatek_Naliczony_Razem = K_16+K_18+K_20+K_24+K_26+K_28+K_30+K_33+K_35+K_36+K_38+K_39) %>%
-      select(Podatek_Naliczony_Razem) %>%
-      summarise(Podatek_Naliczony_Razem = round(sum(Podatek_Naliczony_Razem, na.rm = T),2))
-
-    if (ZakupyCtrl$PodatekNaliczony[1] != ZakupyWiersz_PodatekNaliczony$Podatek_Naliczony_Razem[1]) {
-      stop(sprintf("Podatek naliczony z ZakupyCtrl to %.2f, natomiast podatek naliczony z ZakupyWiersz to %.2f ",
-                   ZakupCtrl$PodatekNaliczony[1],
-                   sum(ZakupyWiersz_PodatekNaliczony$Podatek_Naliczony_Razem)))
-    }
-
-  }
 
   ##8. Zapis do .Rdata##############
   Lista_JPK_VAT_2 <- list(
