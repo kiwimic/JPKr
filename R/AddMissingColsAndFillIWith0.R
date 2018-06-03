@@ -49,7 +49,8 @@ ALL_COLS_SprzedazWiersz <- c(
   "K_35",
   "K_36",
   "K_37",
-  "K_38"
+  "K_38",
+  "K_39"
 )
 
 ALL_COLS_ZakupyWiersz <- c(
