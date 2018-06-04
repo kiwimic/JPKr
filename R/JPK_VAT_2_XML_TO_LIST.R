@@ -28,8 +28,11 @@ JPK_VAT_2_XML_TO_LIST <- function(file_xml = "", file_xlsx = "", warningInsteadE
     as_list() -> JPK_VAT2
 
   ##1. Nagłowek###########
-  Naglowek <- JPK_VAT2["Naglowek"]
-  Naglowek_DF <- as.data.frame(Naglowek)
+  Naglowek <- JPK_VAT2["Naglowek"] %>%
+    unname() %>%
+    unlist() %>%
+    t() %>%
+    as.tibble()
 
   ##2. Podmiot1###############
   Podmiot1a <- JPK_VAT2["Podmiot1"][["Podmiot1"]][["IdentyfikatorPodmiotu"]]
@@ -122,7 +125,7 @@ JPK_VAT_2_XML_TO_LIST <- function(file_xml = "", file_xlsx = "", warningInsteadE
 
   ##8. Zapis do .Rdata##############
   Lista_JPK_VAT_2 <- list(
-    Naglowek = Naglowek_DF,
+    Naglowek = Naglowek,
     Podmiot1 = Podmiot1_DF,
     SprzedazWiersz = SprzedazWiersz,
     SprzedazCtrl = SprzedazCtrl,
