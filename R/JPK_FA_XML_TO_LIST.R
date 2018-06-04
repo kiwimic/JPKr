@@ -34,17 +34,17 @@ JPK_FA_XML_TO_LIST <- function(file_xml = "", file_xlsx = "") {
   Faktura <- bind_rows(Faktura)
 
   Faktura <- rmCharNULLfromDF(Faktura)
-  Faktura <- convertCharColsToNum(Faktura, colsToConv = c("P_13_1",
-                                                              "P_13_2",
-                                                              "P_13_4",
-                                                              "P_13_7",
-                                                              "P_14_1",
-                                                              "P_14_2",
-                                                              "P_14_4",
-                                                              "P_15"
-  ))
-  Faktura <- AddMissingColsAndFillWith0(Faktura, ALL_COLS_Faktura)
 
+  Faktura <- AddMissingColsAndFillWith0(Faktura, ALL_COLS_Faktura)
+  Faktura <- convertCharColsToNum(Faktura, colsToConv = c("P_13_1",
+                                                          "P_13_2",
+                                                          "P_13_4",
+                                                          "P_13_7",
+                                                          "P_14_1",
+                                                          "P_14_2",
+                                                          "P_14_4",
+                                                          "P_15"
+  ))
 
   ##4. FakturaCtrl####
   FakturaCtrl <- JPK_FA["FakturaCtrl"] %>%
@@ -69,13 +69,13 @@ JPK_FA_XML_TO_LIST <- function(file_xml = "", file_xlsx = "") {
   FakturaWiersz <- bind_rows(FakturaWiersz)
 
   FakturaWiersz <- rmCharNULLfromDF(FakturaWiersz)
-  FakturaWiersz <- convertCharColsToNum(FakturaWiersz, colsToConv = c("P_8B",
-                                                                          "P_9A",
-                                                                          "P_11",
-                                                                          "P_11A"
-  ))
-
   FakturaWiersz <- AddMissingColsAndFillWith0(FakturaWiersz, ALL_COLS_FakturaWiersz)
+
+  FakturaWiersz <- convertCharColsToNum(FakturaWiersz, colsToConv = c("P_8B",
+                                                                      "P_9A",
+                                                                      "P_11",
+                                                                      "P_11A"
+  ))
 
   ##7. FakturaWierszCtrl####
   FakturaWierszCtrl <- JPK_FA["FakturaWierszCtrl"] %>%
