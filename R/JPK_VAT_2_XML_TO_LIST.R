@@ -44,7 +44,7 @@ JPK_VAT_2_XML_TO_LIST <- function(file_xml = "", file_xlsx = "", warningInsteadE
   )
 
   ##3. SprzedazWiersz####################################
-
+  ##3.1 Nie daje tutaj argumentu guessClassOfCols, ponieważ tutaj konwertuje tylko kolumny "^K_"
   SprzedazWiersz <- JPK_VAT2[grep(names(JPK_VAT2), pattern = "^SprzedazWiersz$")]
   SprzedazWiersz <- bind_rows(SprzedazWiersz)
 

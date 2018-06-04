@@ -6,7 +6,7 @@ library(stringr)
 library(writexl)
 
 
-JPK_FA_XML_TO_LIST <- function(file_xml = "", file_xlsx = "", warningInsteadError = F) {
+JPK_FA_XML_TO_LIST <- function(file_xml = "", file_xlsx = "", warningInsteadError = F, guessClassOfCols = T) {
   start <- Sys.time()
 
   if (length(grep(file_xlsx, pattern = "(\\.xlsx)$")) == 0) {
@@ -32,6 +32,7 @@ JPK_FA_XML_TO_LIST <- function(file_xml = "", file_xlsx = "", warningInsteadErro
   )
 
   ##3. Faktura####################################
+  ##3.1 Dałem tutaj guessClassOfCols########
 
   Faktura <- JPK_FA[grep(names(JPK_FA), pattern = "^Faktura$")]
   Faktura <- bind_rows(Faktura)
@@ -39,15 +40,7 @@ JPK_FA_XML_TO_LIST <- function(file_xml = "", file_xlsx = "", warningInsteadErro
   Faktura <- rmCharNULLfromDF(Faktura)
 
   Faktura <- AddMissingColsAndFillWith0(Faktura, ALL_COLS_Faktura)
-  Faktura <- convertCharColsToNum(Faktura, colsToConv = c("P_13_1",
-                                                          "P_13_2",
-                                                          "P_13_4",
-                                                          "P_13_7",
-                                                          "P_14_1",
-                                                          "P_14_2",
-                                                          "P_14_4",
-                                                          "P_15"
-  ))
+  Faktura <- convertCharColsToNum(Faktura, guess = guessClassOfCols)
 
   ##4. FakturaCtrl####
   FakturaCtrl <- JPK_FA["FakturaCtrl"] %>%
@@ -68,17 +61,14 @@ JPK_FA_XML_TO_LIST <- function(file_xml = "", file_xlsx = "", warningInsteadErro
     as.data.frame()
 
   ##6. FakturaWiersz #######
+  ##6.1 Dałem tutaj guessClassOfCols####
   FakturaWiersz <- JPK_FA[grep(names(JPK_FA), pattern = "^FakturaWiersz$")]
   FakturaWiersz <- bind_rows(FakturaWiersz)
 
   FakturaWiersz <- rmCharNULLfromDF(FakturaWiersz)
   FakturaWiersz <- AddMissingColsAndFillWith0(FakturaWiersz, ALL_COLS_FakturaWiersz)
 
-  FakturaWiersz <- convertCharColsToNum(FakturaWiersz, colsToConv = c("P_8B",
-                                                                      "P_9A",
-                                                                      "P_11",
-                                                                      "P_11A"
-  ))
+  FakturaWiersz <- convertCharColsToNum(FakturaWiersz, guess = guessClassOfCols)
 
   ##7. FakturaWierszCtrl####
   FakturaWierszCtrl <- JPK_FA["FakturaWierszCtrl"] %>%
