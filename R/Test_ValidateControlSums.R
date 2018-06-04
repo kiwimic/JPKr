@@ -7,13 +7,12 @@
 #   http://r-pkgs.had.co.nz/
 #
 Test_ValidateControlSums <- function(V1, V2, msg, onlyWarning = F) {
-  if (onlyWarning) {
-    if (V1 != V2) {
+  if (V1 != V2) {
+    if (onlyWarning) {
       warning(sprintf(msg, V1, V2))
+    } else {
+      stop(sprintf(msg, V1, V2))
     }
-
-  } else {
-    stop(sprintf(msg, V1, V2))
   }
-
 }
+
