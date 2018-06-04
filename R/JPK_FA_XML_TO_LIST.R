@@ -17,8 +17,11 @@ JPK_FA_XML_TO_LIST <- function(file_xml = "", file_xlsx = "") {
     as_list()
 
   ##1. Nagłowek###########
-  Naglowek <- JPK_FA["Naglowek"]
-  Naglowek_DF <- as.data.frame(Naglowek)
+  Naglowek <- JPK_FA["Naglowek"] %>%
+  unname() %>%
+    unlist() %>%
+    t() %>%
+    as.tibble()
 
   ##2. Podmiot1###############
   Podmiot1a <- JPK_FA["Podmiot1"][["Podmiot1"]][["IdentyfikatorPodmiotu"]]
@@ -118,7 +121,7 @@ JPK_FA_XML_TO_LIST <- function(file_xml = "", file_xlsx = "") {
 
   ##9. Zapis do .Rdata##############
   Lista_JPK_FA <- list(
-    Naglowek = Naglowek_DF,
+    Naglowek = Naglowek,
     Podmiot1 = Podmiot1_DF,
     Faktura = Faktura,
     FakturaCtrl = FakturaCtrl,
@@ -134,14 +137,6 @@ JPK_FA_XML_TO_LIST <- function(file_xml = "", file_xlsx = "") {
                      ".Rdata"))
   ##10. Zapis do XLSX ####
   writexl::write_xlsx(x = Lista_JPK_FA, path = file_xlsx)
-
-  # xlsx::write.xlsx(x = Naglowek_DF, file = file_xlsx, sheetName = "Naglowek")
-  # xlsx::write.xlsx(x = Podmiot1_DF, file = file_xlsx, sheetName = "Podmiot1", append = T)
-  # xlsx::write.xlsx(x = Faktura, file = file_xlsx, sheetName = "Faktura", append = T)
-  # xlsx::write.xlsx(x = FakturaCtrl, file = file_xlsx, sheetName = "FakturaCtrl", append = T)
-  # xlsx::write.xlsx(x = StawkiPodatku, file = file_xlsx, sheetName = "StawkiPodatku", append = T)
-  # xlsx::write.xlsx(x = FakturaWiersz, file = file_xlsx, sheetName = "FakturaWiersz", append = T)
-  # xlsx::write.xlsx(x =  FakturaWierszCtrl, file = file_xlsx, sheetName = "FakturaWierszCtrl", append = T)
 
   ##11. Komunikaty po zakończeniu funkcji ####
   print(paste0("Plik zapisano w lokalizacji: ", paste0(getwd(), "/", file_xlsx)))
