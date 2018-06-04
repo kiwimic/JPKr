@@ -6,7 +6,7 @@ library(stringr)
 library(writexl)
 
 
-JPK_FA_XML_TO_LIST <- function(file_xml = "", file_xlsx = "") {
+JPK_FA_XML_TO_LIST <- function(file_xml = "", file_xlsx = "", warningInsteadError = F) {
   start <- Sys.time()
 
   if (length(grep(file_xlsx, pattern = "(\\.xlsx)$")) == 0) {
