@@ -9,9 +9,7 @@ library(writexl)
 JPK_FA_XML_TO_LIST <- function(file_xml = "", file_xlsx = "", warningInsteadError = F, guessClassOfCols = T) {
   start <- Sys.time()
 
-  if (length(grep(file_xlsx, pattern = "(\\.xlsx)$")) == 0) {
-    file_xlsx <- paste0(file_xlsx, ".xlsx")
-  }
+
 
   JPK_FA <- xml2::read_xml(x = file_xml) %>%
     as_list()
@@ -127,8 +125,12 @@ JPK_FA_XML_TO_LIST <- function(file_xml = "", file_xlsx = "", warningInsteadErro
                           replacement = ""),
                      ".Rdata"))
   ##10. Zapis do XLSX ####
-  writexl::write_xlsx(x = Lista_JPK_FA, path = file_xlsx)
+  if (nchar(file_xlsx) == 0) {
 
+  } else {
+    file_xlsx <- paste0(file_xlsx, ".xlsx")
+    writexl::write_xlsx(x = Lista_JPK_FA, path = file_xlsx)
+  }
   ##11. Komunikaty po zakończeniu funkcji ####
   print(paste0("Plik zapisano w lokalizacji: ", paste0(getwd(), "/", file_xlsx)))
   print("Konwersja z pliku xml do xlsx trwała: ")

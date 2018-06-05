@@ -21,12 +21,10 @@ library(writexl)
 JPK_VAT_2_XML_TO_LIST <- function(file_xml = "", file_xlsx = "", warningInsteadError = F) {
   start <- Sys.time()
 
-  if (length(grep(file_xlsx, pattern = "(\\.xlsx)$")) == 0) {
-    file_xlsx <- paste0(file_xlsx, ".xlsx")
-  }
-
   JPK_VAT2 <- xml2::read_xml(x = file_xml) %>%
     as_list() -> JPK_VAT2
+
+  JPK_VAT2 <- JPK_VAT2[["JPK"]]
 
   ##1. Nagłowek###########
   Naglowek <- JPK_VAT2["Naglowek"] %>%
@@ -148,8 +146,13 @@ JPK_VAT_2_XML_TO_LIST <- function(file_xml = "", file_xlsx = "", warningInsteadE
   # xlsx::write.xlsx(x = ZakupCtrl, file = file_xlsx, sheetName = "ZakupCtrl", append = T)
 
   ##9.1 #### Wywalenie potrzeby korzystania z javy. (Wersja writexl z githuba)####
-  writexl::write_xlsx(x = Lista_JPK_VAT_2, path = file_xlsx)
 
+  if (nchar(file_xlsx) == 0) {
+
+  } else {
+    file_xlsx <- paste0(file_xlsx, ".xlsx")
+    writexl::write_xlsx(x = Lista_JPK_VAT_2, path = file_xlsx)
+  }
   ##10. Komunikaty po zakończeniu funkcji ####
   print(paste0("Plik zapisano w lokalizacji: ", paste0(getwd(), "/", file_xlsx)))
   print("Konwersja z pliku xml do xlsx trwała: ")
