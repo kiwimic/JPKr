@@ -16,6 +16,7 @@ JPK_FA_XML_TO_LIST <- function(file_xml = "", file_xlsx = "", warningInsteadErro
   JPK_FA <- xml2::read_xml(x = file_xml) %>%
     as_list()
 
+  JPK_FA <- JPK_FA[["JPK"]]
   ##1. Nagłowek###########
   Naglowek <- JPK_FA["Naglowek"] %>%
   unname() %>%
