@@ -24,7 +24,6 @@ convertCharColsToNum <- function(df, colsToConv, guess = F) {
     sumOfNA <- apply(df2, 2, function(x) {
       return(sum(is.na(x)))
     })
-    sumOfNA == 0
     df[,sumOfNA==0] <- as.tibble(lapply(df[,sumOfNA == 0], as.numeric))
     df <- as.tibble(df)
   } else {
