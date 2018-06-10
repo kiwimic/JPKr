@@ -9,10 +9,10 @@
 #'
 #' @examples
 guessJpkType <- function(JPK_UNKNOWN) {
-   JPK_UNKNOWN <- JPK_UNKNOWN[["JPK"]]
 
-   TYP_PLIKU <- JPK_UNKNOWN["Naglowek"] %>%
-    unname() %>%
+  JPK_UNKNOWN %>%
+    xml_find_first("//d1:Naglowek") %>%
+    as_list() %>%
     unlist() %>%
     t() %>%
     as.tibble() %>%
