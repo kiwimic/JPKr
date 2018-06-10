@@ -15,7 +15,7 @@ if (sum(colnames(df) %in% ALL_COLS) == length(ALL_COLS)) {
   missing_cols <- setdiff(ALL_COLS, colnames(df))
   missing_cols_filled_with_0 <- setNames(data.frame(matrix(ncol = length(missing_cols), nrow = nrow(df))),
                                          missing_cols)
-  missing_cols_filled_with_0[is.na(missing_cols_filled_with_0)] <- 0
+  missing_cols_filled_with_0[is.na(missing_cols_filled_with_0)] <- NA
 
   df2 <- bind_cols(df, missing_cols_filled_with_0)
   df2 <- df2[,ALL_COLS]
