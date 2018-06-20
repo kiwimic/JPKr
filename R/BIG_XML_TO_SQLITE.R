@@ -64,8 +64,6 @@ BIG_XML_TO_SQLITE <-
 
     i <- 1
     k <- 1
-    file_SQL <- "JPK.sqlite"
-    RSQLite::dbConnect(RSQLite::SQLite(), file_SQL) -> myDB
     bufor <- vector("list", bufor_size)
     for (i in 1:length(ListaFaktur)) {
       ###0.4.3.1 Wczytanie pojedyńczego rekordu do ramki danych####
@@ -98,5 +96,5 @@ BIG_XML_TO_SQLITE <-
       }
 
     }
-
+  dbDisconnect(myDB)
   }
