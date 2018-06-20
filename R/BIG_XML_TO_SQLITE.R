@@ -13,6 +13,13 @@ BIG_XML_TO_SQLITE <-
   function(file_xml = "",
            file_SQL = "Plik_JPK.sqlite",
            bufor_size = 1000) {
+
+    ##0.0.1 TODO#########################################
+    ##0.0.1.1 Pobrać nagłowek i guessJpkType() #####
+    ##0.0.1.2 Uniezależnić kod od rodzaju pliku JPK####
+    ##Np. JPK_FA[[Ctrl]] <- list("//d1:FakturaCtrl", ####
+    ##"//d1:FakturaWierszCtrl") ####
+    ## JPK_FA_STRUKTURA <- list(Ctrl, Elementy (st, kc))
     ##0.1.0 Inicjacja bazy danych SQLite (myDB)#####
     RSQLite::dbConnect(RSQLite::SQLite(), file_SQL) -> myDB
 
