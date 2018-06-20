@@ -88,7 +88,7 @@ BIG_XML_TO_SQLITE <-
       bufor[[k]] <- data
       k <- k + 1
       ###0.4.3.3 Przygotowanie buforu do wrzutu do bazy danych####
-      if ((i %% bufor_size = 0) | i == length(ListaFaktur)) {
+      if ((i %% bufor_size == 0) | (i == length(ListaFaktur))) {
         Data <- bind_rows(bufor)
         data <- convertCharColsToNum(data, guess = T)
         dbWriteTable(myDB, "Faktury", Data, append = T)
