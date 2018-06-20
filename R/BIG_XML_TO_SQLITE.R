@@ -1,4 +1,14 @@
 
+#' Title
+#'
+#' @param file_xml
+#' @param file_SQL
+#' @param bufor_size
+#'
+#' @return
+#' @export
+#'
+#' @examples
 BIG_XML_TO_SQLITE <-
   function(file_xml = "",
            file_SQL = "Plik_JPK.sqlite",
