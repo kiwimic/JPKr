@@ -51,9 +51,9 @@ BIG_XML_TO_SQLITE <-
 
     ## 0.3 Wczytanie JPK jako text + Struktyryzacja#####
     ## 0.3.1 Wczytanie JPK ####
-    readLines(path) %>%
+    readLines(file_xml) %>%
       paste(collapse = "\n") %>%
-      str_replace_all(pattern = "><", replacement = ">\n<") %>%
+      str_replace_all(pattern = ">(\\s+)?<", replacement = ">\n<") %>%
       str_split(pattern = "\n") %>%
       unlist() -> JPK_UNKNOWN
 
@@ -64,7 +64,7 @@ BIG_XML_TO_SQLITE <-
     ListaFaktur <- vector("list", length(index_ST))
     for (i in 1:length(index_ST)) {
       ListaFaktur[[i]] <-
-        paste(BIG_FILE[index_ST[i]:index_KC[i]], collapse = "\n")
+        paste(JPK_UNKNOWN[index_ST[i]:index_KC[i]], collapse = "\n")
     }
 
     ## 0.4 Export do SQLita ####
