@@ -14,8 +14,7 @@ BIG_XML_TO_SQLITE <-
            file_SQL = "Plik_JPK.sqlite",
            bufor_size = 1000) {
 
-    assign(x = "",
-           value = )
+
     ##0.0.1 TODO#########################################
     ##0.0.1.1 Pobrać nagłowek i guessJpkType() #####
     ##0.0.1.2 Uniezależnić kod od rodzaju pliku JPK####
@@ -27,38 +26,17 @@ BIG_XML_TO_SQLITE <-
 
     ##0.1.1 wczytanie JPK_FA#####
     JPK_UNKNOWN <- xml2::read_xml(file_xml, encoding = "UTF-8")
-    ##0.2 Sumy kontrolne dla liczby wierszy####
-    ##0.2.1 FakturaCrl ####
+    JPK_TYPE <- getJpkType(JPK_UNKNOWN)
+    JPK_CONFIG_temp <- JPK_CONFIG[[JPK_TYPE]]
+    #JPK_TYPE <- "JPK_FA"
+    ##0.2 Sumy kontrolne ####
     ##TODO docelowo wprowadzić pętle po parametrze w configu
-    assign(x = JPK_CONFIG$JPK_FA$Ctrl1[1],
-           value = getControlSums(JPK_UNKNOWN, xPath = JPK_CONFIG$JPK_FA$Ctrl1[2]))
-    #
-    # JPK_UNKNOWN %>%
-    #   xml_find_first("//d1:FakturaCtrl") %>%
-    #   as_list() %>%
-    #   unlist() %>%
-    #   t() %>%
-    #   as.tibble() %>%
-    #   select(LiczbaFaktur) %>%
-    #   unlist() %>%
-    #   unname() %>%
-    #   as.numeric() -> JPK_FA_LiczbaFaktur
-    # ##0.2.2 FakuraWieszCtrl####
-
-    assign(x = JPK_CONFIG$JPK_FA$Ctrl2[1],
-           value = getControlSums(JPK_UNKNOWN, xPath = JPK_CONFIG$JPK_FA$Ctrl2[2]))
-
-    # JPK_UNKNOWN %>%
-    #   xml_find_first("//d1:FakturaWierszCtrl") %>%
-    #   as_list() %>%
-    #   unlist() %>%
-    #   t() %>%
-    #   as.tibble() %>%
-    #   mutate_all(as.numeric)
-    #   #select(LiczbaWierszyFaktur) %>%
-      #unlist() %>%
-      #unname() %>%
-
+    ## W configu zaszyte są lokalizacje i nazwy zmiennych
+    for (i in 1:length(JPK_CONFIG_temp[["Ctrl"]])) {
+      assign(x = JPK_CONFIG_temp[["Ctrl"]][[i]][1],
+             value = getControlSums(JPK_UNKNOWN, xPath = JPK_CONFIG_temp[["Ctrl"]][[i]][2])
+      )
+    }
     ## 0.3 Wczytanie JPK jako text + Struktyryzacja#####
     ## 0.3.1 Wczytanie JPK ####
     readLines(file_xml) %>%
