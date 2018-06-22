@@ -12,7 +12,7 @@ getControlSums(pointer_of_file_xml, xPath)
 \item{xPath}{xpath for node for example "//d1:FakturaCtrl"}
 }
 \value{
-numeric tibble with controsums
+numeric tibble with control sums
 }
 \description{
 getControlSums
