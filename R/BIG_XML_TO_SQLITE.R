@@ -56,6 +56,7 @@ BIG_XML_TO_SQLITE <-
     }
 
     ## 0.4 Export do SQLita ####
+    ## Jeśli chodzi o sumy kontrolne może tutaj iść pętla po liście do której wrzuce każda z sum kontrolnych
 
     i <- 1
     k <- 1
