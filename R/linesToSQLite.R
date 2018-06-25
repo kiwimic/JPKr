@@ -21,30 +21,40 @@ linesToSQLite <- function(file_xml,
                           record_end,
                           removeStringfromColnames = "^(Faktura\\.)",
                           colnamesList) {
+  print(paste0("Rozpoczęto wczytywanie: ", table_name))
   readLines(file_xml, encoding = "UTF-8") %>%
     paste(collapse = "\n") %>%
     str_replace_all(pattern = ">(\\s+)?<", replacement = ">\n<") %>%
     str_split(pattern = "\n") %>%
     unlist() -> JPK_UNKNOWN_text
-
+  print("Wczytano jeszcze raz JPK_UNKNOW_text")
+  print(record_start)
+  print(record_end)
   ## 0.3.2 Wyciągniecie indexów z wierszami faktur ####
   index_ST <- grep(JPK_UNKNOWN_text, pattern = record_start)
   index_KC <- grep(JPK_UNKNOWN_text, pattern = record_end)
+  print("Wyciągnieto indexy")
+  print(index_ST[1:5])
+  print(index_KC[1:5])
+
   ## 0.3.2 Umieszczenie faktur w liscie####
   Record_List <- vector("list", length(index_ST))
-  for (i in 1:length(index_ST)) {
-    Record_List[[i]] <-
-      paste(JPK_UNKNOWN_text[index_ST[i]:index_KC[i]], collapse = "\n")
+  for (rec in 1:length(index_ST)) {
+    Record_List[[rec]] <-
+      paste(JPK_UNKNOWN_text[index_ST[rec]:index_KC[rec]], collapse = "\n")
   }
-
+  print("Stworzono recordlist")
   ## 0.4 Export do SQLita ####
   ## Jeśli chodzi o sumy kontrolne może tutaj iść pętla po liście do której wrzuce każda z sum kontrolnych
 
   i <- 1
   k <- 1
+  print(paste0("Nowe i", i))
+  print(paste0("Nowe k", k))
+
   bufor <- vector("list", bufor_size)
   for (i in 1:length(Record_List)) {
-    ###0.4.3.1 Wczytanie pojedyńczego rekordu do ramki danych####
+      ###0.4.3.1 Wczytanie pojedyńczego rekordu do ramki danych####
     Record_List[[i]] %>%
       read_xml(encoding = "UTF-8") %>%
       as_list() %>%
@@ -74,5 +84,6 @@ linesToSQLite <- function(file_xml,
     }
 
   }
-  dbDisconnect(SQLiteConnection)
+  #Przeniesione po za pętle
+  #dbDisconnect(SQLiteConnection)
 }
