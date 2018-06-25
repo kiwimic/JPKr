@@ -6,13 +6,22 @@
 #' @param table_name name of table to export data
 #' @param record_start record start
 #' @param record_end record end
+#' @param removeStringfromColnames record end
+#' @param colnamesList record end
 #'
 #' @return
 #' @export
 #'
 #' @examples
-linesToSQLite <- function(file_xml, bufor_size, SQLiteConnection, table_name, record_start, record_end) {
-  readLines(file_xml) %>%
+linesToSQLite <- function(file_xml,
+                          bufor_size = 1000,
+                          SQLiteConnection,
+                          table_name,
+                          record_start,
+                          record_end,
+                          removeStringfromColnames = "^(Faktura\\.)",
+                          colnamesList) {
+  readLines(file_xml, encoding = "UTF-8") %>%
     paste(collapse = "\n") %>%
     str_replace_all(pattern = ">(\\s+)?<", replacement = ">\n<") %>%
     str_split(pattern = "\n") %>%
@@ -46,16 +55,16 @@ linesToSQLite <- function(file_xml, bufor_size, SQLiteConnection, table_name, re
     ###0.4.3.2 Dodanie brakujacych kolumn####
     colnames(data) <-
       str_replace(colnames(data),
-                  pattern = "^(Faktura\\.)",
+                  pattern = removeStringfromColnames,
                   replacement = "")
     data <-
-      AddMissingColsAndFillWith0(data, ALL_COLS = ALL_COLS_Faktura)
+      AddMissingColsAndFillWith0(data, ALL_COLS = colnamesList)
 
     ###0.4.3.2 Wrzucenie pojeńczego rekordu do buforu####
     bufor[[k]] <- data
     k <- k + 1
     ###0.4.3.3 Przygotowanie buforu do wrzutu do bazy danych####
-    if ((i %% bufor_size == 0) | (i == length(recordGraphics()))) {
+    if ((i %% bufor_size == 0) | (i == length(Record_List))) {
       Data <- bind_rows(bufor)
       data <- convertCharColsToNum(data, guess = T)
       dbWriteTable(SQLiteConnection, table_name, Data, append = T)
