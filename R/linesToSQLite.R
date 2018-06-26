@@ -13,7 +13,7 @@
 #' @export
 #'
 #' @examples
-linesToSQLite <- function(file_xml,
+linesToSQLite <- function(linesOfJPK = JPK_UNKNOWN_text,
                           bufor_size = 1000,
                           SQLiteConnection,
                           table_name,
@@ -21,13 +21,8 @@ linesToSQLite <- function(file_xml,
                           record_end,
                           removeStringfromColnames = "^(Faktura\\.)",
                           colnamesList) {
-  print(paste0("Rozpoczęto wczytywanie: ", table_name))
-  readLines(file_xml, encoding = "UTF-8") %>%
-    paste(collapse = "\n") %>%
-    str_replace_all(pattern = ">(\\s+)?<", replacement = ">\n<") %>%
-    str_split(pattern = "\n") %>%
-    unlist() -> JPK_UNKNOWN_text
-  print("Wczytano jeszcze raz JPK_UNKNOW_text")
+
+
   print(record_start)
   print(record_end)
   ## 0.3.2 Wyciągniecie indexów z wierszami faktur ####
