@@ -40,12 +40,17 @@ BIG_XML_TO_SQLITE <-
 
 
     }
-
-
+      ## Aby uniknąć ponowe wczytywanie
+      readLines(file_xml, encoding = "UTF-8") %>%
+      paste(collapse = "\n") %>%
+      str_remove_all(pattern = "tns:") %>%
+      str_replace_all(pattern = ">(\\s+)?<", replacement = ">\n<") %>%
+      str_split(pattern = "\n") %>%
+      unlist() -> JPK_UNKNOWN_text
 
     for (j in 1:length(JPK_CONFIG[[JPK_TYPE]][["Tables"]])) {
 
-      linesToSQLite(file_xml = file_xml,
+      linesToSQLite(linesOfJPK = JPK_UNKNOWN_text,
                     bufor_size = bufor_size,
                     SQLiteConnection = myDB,
                     table_name = JPK_CONFIG[[JPK_TYPE]]$Tables[[j]][1],
