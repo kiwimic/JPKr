@@ -4,13 +4,11 @@
 \alias{linesToSQLite}
 \title{linesToSQLite}
 \usage{
-linesToSQLite(file_xml, bufor_size = 1000, SQLiteConnection, table_name,
-  record_start, record_end, removeStringfromColnames = "^(Faktura\\\\.)",
-  colnamesList)
+linesToSQLite(linesOfJPK = JPK_UNKNOWN_text, bufor_size = 1000,
+  SQLiteConnection, table_name, record_start, record_end,
+  removeStringfromColnames = "^(Faktura\\\\.)", colnamesList)
 }
 \arguments{
-\item{file_xml}{path to JPK xml file}
-
 \item{bufor_size}{size of bufor}
 
 \item{SQLiteConnection}{sqlite connection}
@@ -24,6 +22,8 @@ linesToSQLite(file_xml, bufor_size = 1000, SQLiteConnection, table_name,
 \item{removeStringfromColnames}{record end}
 
 \item{colnamesList}{record end}
+
+\item{file_xml}{path to JPK xml file}
 }
 \description{
 linesToSQLite
