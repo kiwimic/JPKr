@@ -1,21 +1,15 @@
-# Hello, world!
-#
-# This is an function that convert character cols from dataframe to numeric.
-# You have to pass colnames to convert as argument colsToConv
-#
-# You can learn more about package authoring with RStudio at:
-#
-#   http://r-pkgs.had.co.nz/
-#
-# Some useful keyboard shortcuts for package authoring:
-#
-#   Build and Reload Package:  'Ctrl + Shift + B'
-#   Check Package:             'Ctrl + Shift + E'
-#   Test Package:              'Ctrl + Shift + T'
 library(stringr)
 
 
-##0.4 Wektora wersja funkcji do walidacji NIP (działa w ramkach danych#########
+##0.4 Wektora wersja funkcji do walidacji NIP (działa w ramkach danych)#########
+#' Title function checks if NIP number 'Polish company indetyfication number' is from Poland 'TRUE' or not 'FALSE'
+#'
+#' @param NIP
+#'
+#' @return logical
+#' @export
+#'
+#' @examples
 validationOfPolishNIP <- Vectorize(FUN = function(NIP) {
   ret <- FALSE
 
