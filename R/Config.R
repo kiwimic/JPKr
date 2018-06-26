@@ -21,12 +21,18 @@ JPK_CONFIG <-
     Colnames = list(Faktura = ALL_COLS_Faktura,
                     FakturaWiersz = ALL_COLS_FakturaWiersz)
   ),
-  JPK_VAT_2 = list(Ctrl = list(),
-                   Tables = list(),
-                   Colnames = list()),
-  JPK_VAT_3 = list(Ctrl = list(),
-                   Tables = list(),
-                   Colnames = list()),
+  JPK_VAT = list(Ctrl = list(
+    SprzedazCtrl = c("SprzedazCtrl", "/tns:JPK/tns:SprzedazCtrl"),
+    ZakupCtrl = c("ZakupCtrl", "/tns:JPK/tns:ZakupCtrl")
+  ),
+                   Tables = list(
+                     SprzedazWiersz = c("SprzedazWiersz", "<SprzedazWiersz typ=\"G\">", "</SprzedazWiersz>", "^(SprzedazWiersz\\.)"),
+                     ZakupyWiersz = c("ZakupWiesz", "ZakupWiersz typ=\"G\">", "</ZakupWiersz>", "^(ZakupWiersz\\.)")
+                   ),
+                   Colnames = list(
+                     Sprzedaz = ALL_COLS_SprzedazWiersz,
+                     Zakup = ALL_COLS_ZakupyWiersz
+                   )),
   JPK_MAG = list(Ctrl = list(),
                  Tables = list(),
                  Colnames = list()),
