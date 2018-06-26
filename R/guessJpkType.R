@@ -1,10 +1,9 @@
 
-
 #' getJpkType
 #'
 #' @param pointer_of_file_xml
 #'
-#' @return type of JPK file like 'JPK_FA', 'JPK_VAT3'
+#' @return character vector with type of JPK file like 'JPK_FA', 'JPK_VAT'
 #' @export
 #'
 #' @examples
