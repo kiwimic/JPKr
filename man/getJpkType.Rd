@@ -10,7 +10,7 @@ getJpkType(pointer_of_file_xml)
 \item{pointer_of_file_xml}{}
 }
 \value{
-type of JPK file like 'JPK_FA', 'JPK_VAT3'
+character vector with type of JPK file like 'JPK_FA', 'JPK_VAT'
 }
 \description{
 getJpkType

@@ -1,15 +1,15 @@
 
-#' Title
-#'
-#' @param file_xml
-#' @param file_SQL
-#' @param bufor_size
+#' exportJPKtoSQLite is doing parsing JPK elemens for example from "Faktura" table of JPK_FA file single record is between this characters "<Faktura typ=\"G\">","</Faktura>",
+#' function generate SQLite file with tables with records of JPK file.
+#' @param file_xml path to xml file
+#' @param file_SQL name of sqlfile you want to create 'remember to add .sqlite at the end'
+#' @param bufor_size size of single instert of records you want to write to sqlite base. Default is 1000
 #'
 #' @return
 #' @export
 #'
 #' @examples
-BIG_XML_TO_SQLITE <-
+exportJPKtoSQLite <-
   function(file_xml = "",
            file_SQL = "Plik_JPK.sqlite",
            bufor_size = 1000) {
