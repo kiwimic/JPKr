@@ -35,7 +35,7 @@ exportJPKtoSQLite <-
     for (z in 1:length(JPK_CONFIG[[JPK_TYPE]][["Ctrl"]])) {
       dbWriteTable(myDB,
                    JPK_CONFIG[[JPK_TYPE]]$Ctrl[[z]][1],
-                   getControlSums(JPK_UNKNOWN, xPath = JPK_CONFIG[[JPK_TYPE]]$Ctrl[[z]][2]),
+                   getControlSums(JPK_UNKNOWN, xPath = JPK_CONFIG[[JPK_TYPE]]$Ctrl[[z]][1]),
                    append = F)
 
 

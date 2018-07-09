@@ -28,6 +28,7 @@ linesToSQLite <- function(linesOfJPK = JPK_UNKNOWN_text,
   ## 0.3.2 Wyciągniecie indexów z wierszami faktur ####
   index_ST <- grep(JPK_UNKNOWN_text, pattern = record_start)
   index_KC <- grep(JPK_UNKNOWN_text, pattern = record_end)
+  LiczbaDokumentow <- length(index_ST)
   print("Wyciągnieto indexy")
   print(index_ST[1:5])
   print(index_KC[1:5])
