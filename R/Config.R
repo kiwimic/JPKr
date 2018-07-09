@@ -50,5 +50,3 @@ JPK_CONFIG <-
                  Colnames = list())
 
   )
-
-
