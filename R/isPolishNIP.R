@@ -10,7 +10,7 @@ library(stringr)
 #' @export
 #'
 #' @examples validatevalidationOfPolishNIP
-is.PolishNIP <- Vectorize(FUN = function(NIP) {
+isPolishNIP <- Vectorize(FUN = function(NIP) {
   ret <- FALSE
 
   if (nchar(NIP) < 10) {
