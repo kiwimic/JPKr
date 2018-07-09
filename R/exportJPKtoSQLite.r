@@ -27,19 +27,7 @@ exportJPKtoSQLite <-
     ##0.1.1 wczytanie JPK_FA#####
     JPK_UNKNOWN <- xml2::read_xml(file_xml, encoding = "UTF-8")
     JPK_TYPE <- getJpkType(JPK_UNKNOWN)
-    #JPK_CONFIG_temp <- JPK_CONFIG[[JPK_TYPE]]
-    #JPK_TYPE <- "JPK_FA"
-    ##0.2 Sumy kontrolne ####
-    ##TODO docelowo wprowadzić pętle po parametrze w configu
-    ## W configu zaszyte są lokalizacje i nazwy zmiennych
-    for (z in 1:length(JPK_CONFIG[[JPK_TYPE]][["Ctrl"]])) {
-      dbWriteTable(myDB,
-                   JPK_CONFIG[[JPK_TYPE]]$Ctrl[[z]][1],
-                   getControlSums(JPK_UNKNOWN, xPath = JPK_CONFIG[[JPK_TYPE]]$Ctrl[[z]][1]),
-                   append = F)
 
-
-    }
       ## Aby uniknąć ponowe wczytywanie
       readLines(file_xml, encoding = "UTF-8") %>%
       paste(collapse = "\n") %>%
@@ -47,6 +35,21 @@ exportJPKtoSQLite <-
       str_replace_all(pattern = ">(\\s+)?<", replacement = ">\n<") %>%
       str_split(pattern = "\n") %>%
       unlist() -> JPK_UNKNOWN_text
+
+      #JPK_CONFIG_temp <- JPK_CONFIG[[JPK_TYPE]]
+      #JPK_TYPE <- "JPK_FA"
+      ##0.2 Sumy kontrolne ####
+      ##TODO docelowo wprowadzić pętle po parametrze w configu
+      ## W configu zaszyte są lokalizacje i nazwy zmiennych
+      for (z in 1:length(JPK_CONFIG[[JPK_TYPE]][["Ctrl"]])) {
+        dbWriteTable(myDB,
+                     JPK_CONFIG[[JPK_TYPE]]$Ctrl[[z]][1],
+                     getControlSums(JPK_UNKNOWN_text, pattern = JPK_CONFIG[[JPK_TYPE]]$Ctrl[[z]][1]),
+                     append = F)
+
+
+      }
+
 
     for (j in 1:length(JPK_CONFIG[[JPK_TYPE]][["Tables"]])) {
 
