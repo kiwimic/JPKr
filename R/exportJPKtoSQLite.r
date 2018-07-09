@@ -14,7 +14,7 @@ exportJPKtoSQLite <-
            file_SQL = "Plik_JPK.sqlite",
            bufor_size = 1000) {
 
-
+    time_start <- Sys.time()
     ##0.0.1 TODO#########################################
     ##0.0.1.1 Pobrać nagłowek i guessJpkType() #####
     ##0.0.1.2 Uniezależnić kod od rodzaju pliku JPK####
@@ -26,6 +26,9 @@ exportJPKtoSQLite <-
 
     ##0.1.1 wczytanie JPK_FA#####
     JPK_UNKNOWN <- xml2::read_xml(file_xml, encoding = "UTF-8")
+    print("Dodanie pointera trwało: ")
+    print( Sys.time() - time_start)
+    time_v1 <- Sys.time()
     JPK_TYPE <- getJpkType(JPK_UNKNOWN)
 
       ## Aby uniknąć ponowe wczytywanie
@@ -36,21 +39,26 @@ exportJPKtoSQLite <-
       str_split(pattern = "\n") %>%
       unlist() -> JPK_UNKNOWN_text
 
+    print("Przerobienie xml do readlines trwało: ")
+    print(Sys.time() - time_v1)
+
       #JPK_CONFIG_temp <- JPK_CONFIG[[JPK_TYPE]]
       #JPK_TYPE <- "JPK_FA"
       ##0.2 Sumy kontrolne ####
       ##TODO docelowo wprowadzić pętle po parametrze w configu
       ## W configu zaszyte są lokalizacje i nazwy zmiennych
       for (z in 1:length(JPK_CONFIG[[JPK_TYPE]][["Ctrl"]])) {
+        time_v2 <- Sys.time()
         dbWriteTable(myDB,
                      JPK_CONFIG[[JPK_TYPE]]$Ctrl[[z]][1],
                      getControlSums(JPK_UNKNOWN_text, pattern = JPK_CONFIG[[JPK_TYPE]]$Ctrl[[z]][1]),
                      append = F)
 
-
+        print(paste0("Dodanie sumy kontrolnej: ", JPK_CONFIG[[JPK_TYPE]]$Ctrl[[z]][1], " trwało: "))
+        print(Sys.time() - time_v2)
       }
 
-
+    print("Teraz najdłuższe :)")
     for (j in 1:length(JPK_CONFIG[[JPK_TYPE]][["Tables"]])) {
 
       linesToSQLite(linesOfJPK = JPK_UNKNOWN_text,
@@ -65,7 +73,8 @@ exportJPKtoSQLite <-
 
     }
     dbDisconnect(myDB)
-
+    print("Całość trwała: ")
+    print(Sys.time() - time_start)
     #0.9999 KONIEC FUNKCJI#####
     ######XXXXXXXXXXXXXXXXXXXXXXXXXX#########
     ## 0.3 Wczytanie JPK jako text + Struktyryzacja#####

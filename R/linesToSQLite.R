@@ -26,8 +26,8 @@ linesToSQLite <- function(linesOfJPK = JPK_UNKNOWN_text,
   print(record_start)
   print(record_end)
   ## 0.3.2 Wyciągniecie indexów z wierszami faktur ####
-  index_ST <- grep(JPK_UNKNOWN_text, pattern = record_start)
-  index_KC <- grep(JPK_UNKNOWN_text, pattern = record_end)
+  index_ST <- grep(linesOfJPK, pattern = record_start)
+  index_KC <- grep(linesOfJPK, pattern = record_end)
   LiczbaDokumentow <- length(index_ST)
   print("Wyciągnieto indexy")
   print(index_ST[1:5])
@@ -37,7 +37,7 @@ linesToSQLite <- function(linesOfJPK = JPK_UNKNOWN_text,
   Record_List <- vector("list", length(index_ST))
   for (rec in 1:length(index_ST)) {
     Record_List[[rec]] <-
-      paste(JPK_UNKNOWN_text[index_ST[rec]:index_KC[rec]], collapse = "\n")
+      paste(linesOfJPK[index_ST[rec]:index_KC[rec]], collapse = "\n")
   }
   print("Stworzono recordlist")
   ## 0.4 Export do SQLita ####
