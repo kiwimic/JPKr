@@ -21,10 +21,13 @@ convertCharColsToNum <- function(df, colsToConv, guess = F) {
 
   if (guess) {
     df2 <- suppressWarnings(as.tibble(lapply(df, as.numeric)))
+    sumOfNA_before <- apply(df, 2, function(x) {
+      return(sum(is.na(x)))
+    })
     sumOfNA <- apply(df2, 2, function(x) {
       return(sum(is.na(x)))
     })
-    df[,sumOfNA==0] <- as.tibble(lapply(df[,sumOfNA == 0], as.numeric))
+    df[,sumOfNA==sumOfNA_before] <- as.tibble(lapply(df[,sumOfNA == sumOfNA_before], as.numeric))
     df <- as.tibble(df)
   } else {
     df[, colsToConv] <- apply(df[, colsToConv], 2,   function(x) {
