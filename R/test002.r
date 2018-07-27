@@ -1,66 +1,42 @@
 
-#' test002 Służy do obliczenia sum kontrolnych.
+#' test002 Służy do zweryfikowania sum kontrolnych z pliku JPK
 #'
 #' @param data must be converted to numeric data.frame with JPK FA, or JPK_VAT
 #'
-#' @return a tibble with some metric: sum, median, mean and etc..
+#' @return return list with 3 elements.
+#'  1. Logical TRUE, or FALSE depends on if control sums computed vs control sums from JPK file are equal,
+#'  2. Control sums from JPK file,
+#'  3. Control sums computed from 'data'
 #' @export
 #'
 #' @examples
-test002 <- function(data) {
+test002 <- function(data = NA, controlSumsFromFile = NA, jpk_type = NA) {
+  if (is.na(jpk_type)) {
+    stop(sprintf("please pass jpk_type argument in test002 function"))
+  }
+  if ((sum(class(data) %in% c("data.frame", "tibble", "tbl_df"))==0)) {
+    stop(sprintf("data needs to be class 'data.frame, tibble, tbl_df', not %s", class(data)))
+  }
+  if ((sum(class(controlSumsFromFile) %in% c("data.frame", "tibble", "tbl_df"))==0)) {
+    stop(sprintf("controlSumsFromFile needs to be class 'data.frame, tibble, tbl_df', not %s", class(controlSumsFromFile)))
+  }
 
-  data %>%
-    summarise(Razem = n()) %>%
-    mutate(Metric = "Liczba wierszy: ") -> LiczbaWierszy
+  computedControlSums = switch(
+    jpk_type,
+    "JPK_VAT"="Good Morning",
+    "JPK_FA"= {
+      data %>%
+        group_by(Species) %>%
+        summarise(N = n())
 
+    },
+    "JPK_WB"="Good Evening",
+    "JPK_MAG"="Good Night"
 
-  data %>%
-    summarise_if(is.numeric, sum, na.rm = T) %>%
-    mutate(Metric = "Sumy: ") %>%
-    select(Metric, everything()) -> Sumy
+  )
 
-  data %>%
-    summarise_if(is.numeric, min, na.rm = T) %>%
-    mutate(Metric = "Min: ") %>%
-    select(Metric, everything()) -> Min
-
-  data %>%
-    summarise_if(is.numeric, max, na.rm = T) %>%
-    mutate(Metric = "Max: ") %>%
-    select(Metric, everything()) -> Max
-
-  data %>%
-    summarise_if(is.numeric, median, na.rm = T) %>%
-    mutate(Metric = "Median: ") %>%
-    select(Metric, everything()) -> Median
-
-  data %>%
-    summarise_if(is.numeric, quantile, probs = 0.025, na.rm = T) %>%
-    mutate(Metric = "Q025: ") %>%
-    select(Metric, everything()) -> Q025
-
-  data %>%
-    summarise_if(is.numeric, quantile, probs = 0.25, na.rm = T) %>%
-    mutate(Metric = "Q25: ") %>%
-    select(Metric, everything()) -> Q25
-
-  data %>%
-    summarise_if(is.numeric, quantile, probs = 0.75, na.rm = T) %>%
-    mutate(Metric = "Q75: ") %>%
-    select(Metric, everything()) -> Q75
-
-  data %>%
-    summarise_if(is.numeric, quantile, probs = 0.975, na.rm = T) %>%
-    mutate(Metric = "Q975: ") %>%
-    select(Metric, everything()) -> Q975
-
-  data %>%
-    apply(FUN = function(x) {return(sum(is.na(x)))}, 2) %>%
-    t() %>%
-    as.tibble() %>%
-    bind_cols(tibble(Metric = "NA")) %>%
-    select(Metric, everything()) ->  Empty
-
-  return(bind_rows(Sumy, Min, Max, Median, Q025, Q25, Q75, Q975, Empty, LiczbaWierszy))
-
+  result <- list(result = FALSE,
+                 controlSumsFromFile = controlSumsFromFile,
+                 computedControlSums = computedControlSums)
+  return(result)
 }

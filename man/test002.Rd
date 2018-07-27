@@ -2,16 +2,19 @@
 % Please edit documentation in R/test002.r
 \name{test002}
 \alias{test002}
-\title{test002 Służy do obliczenia sum kontrolnych.}
+\title{test002 Służy do zweryfikowania sum kontrolnych z pliku JPK}
 \usage{
-test002(data)
+test002(data = NA, controlSumsFromFile = NA, jpk_type = NA)
 }
 \arguments{
 \item{data}{must be converted to numeric data.frame with JPK FA, or JPK_VAT}
 }
 \value{
-a tibble with some metric: sum, median, mean and etc..
+return list with 3 elements.
+ 1. Logical TRUE, or FALSE depends on if control sums computed vs control sums from JPK file are equal,
+ 2. Control sums from JPK file,
+ 3. Control sums computed from 'data'
 }
 \description{
-test002 Służy do obliczenia sum kontrolnych.
+test002 Służy do zweryfikowania sum kontrolnych z pliku JPK
 }
