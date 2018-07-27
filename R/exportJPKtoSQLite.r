@@ -42,6 +42,12 @@ exportJPKtoSQLite <-
     print("Przerobienie xml do readlines trwało: ")
     print(Sys.time() - time_v1)
 
+    ##0.1.2 Dodanie tabeli z typem JPK #####
+     dbWriteTable(myDB,
+                 name = "TYP",
+                 value = tibble(TYP = JPK_TYPE),
+                 append = F,
+                 overwrite = T)
       #JPK_CONFIG_temp <- JPK_CONFIG[[JPK_TYPE]]
       #JPK_TYPE <- "JPK_FA"
       ##0.2 Sumy kontrolne ####
