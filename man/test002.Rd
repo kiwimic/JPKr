@@ -2,7 +2,7 @@
 % Please edit documentation in R/test002.r
 \name{test002}
 \alias{test002}
-\title{test002 Służy do zweryfikowania sum kontrolnych z pliku JPK}
+\title{test002 Sluzy do zweryfikowania sum kontrolnych z pliku JPK}
 \usage{
 test002(data = NA, controlSumsFromFile = NA, jpk_type = NA)
 }
@@ -11,10 +11,13 @@ test002(data = NA, controlSumsFromFile = NA, jpk_type = NA)
 }
 \value{
 return list with 3 elements.
+
  1. Logical TRUE, or FALSE depends on if control sums computed vs control sums from JPK file are equal,
+
  2. Control sums from JPK file,
+
  3. Control sums computed from 'data'
 }
 \description{
-test002 Służy do zweryfikowania sum kontrolnych z pliku JPK
+test002 Sluzy do zweryfikowania sum kontrolnych z pliku JPK
 }
