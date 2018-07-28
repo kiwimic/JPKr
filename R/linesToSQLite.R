@@ -71,9 +71,9 @@ linesToSQLite <- function(linesOfJPK = JPK_UNKNOWN_text,
     k <- k + 1
     ###0.4.3.3 Przygotowanie buforu do wrzutu do bazy danych####
     if ((i %% bufor_size == 0) | (i == length(Record_List))) {
-      Data <- bind_rows(bufor)
-      data <- convertCharColsToNum(data, guess = T)
-      dbWriteTable(SQLiteConnection, table_name, Data, append = T)
+      data_from_bufor <- bind_rows(bufor)
+      data_from_bufor <- convertCharColsToNum(data_from_bufor, guess = T)
+      dbWriteTable(SQLiteConnection, table_name, data_from_bufor, append = T)
       bufor <- vector("list", bufor_size)
       print(i)
       k <- 1
