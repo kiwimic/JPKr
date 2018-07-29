@@ -27,7 +27,7 @@ test002 <- function(data = NA, controlSumsFromFile = NA, jpk_type = NA) {
 
   computedControlSums = switch(
     jpk_type,
-    "JPK_VAT"="Good Morning",
+    "JPK_VAT"="JPK_VAT is not supported yet",
     "JPK_FA"= {
 
     data %>%
@@ -37,12 +37,12 @@ test002 <- function(data = NA, controlSumsFromFile = NA, jpk_type = NA) {
        mutate(LiczbaFaktur = 1) %>%
        summarise_all(sum, na.rm = T) %>%
        mutate(WartoscFaktur = P_13_1 + P_13_2 + P_13_3 + P_13_4 + P_13_5 + P_13_6 + P_13_7 +
-                P_14_1 + P_14_2 + P_14_3, P_14_4 + P_14_5) %>%
+                P_14_1 + P_14_2 + P_14_3 + P_14_4 + P_14_5) %>%
        mutate_all(round, 2) %>%
        select(LiczbaFaktur, WartoscFaktur)
     },
-    "JPK_WB"="Good Evening",
-    "JPK_MAG"="Good Night"
+    "JPK_WB"="JPK_WB is not supported yet",
+    "JPK_MAG"="JPK_MAG is not supported yet"
 
   )
   if (identical(computedControlSums, controlSumsFromFile)) {
@@ -53,3 +53,6 @@ test002 <- function(data = NA, controlSumsFromFile = NA, jpk_type = NA) {
                  computedControlSums = computedControlSums)
   return(result)
 }
+
+
+
