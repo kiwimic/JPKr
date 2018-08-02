@@ -25,6 +25,8 @@ test002 <- function(data = NA, controlSumsFromFile = NA, jpk_type = NA) {
     stop(sprintf("controlSumsFromFile needs to be class 'data.frame, tibble, tbl_df', not %s", class(controlSumsFromFile)))
   }
 
+  result_test <- F
+
   computedControlSums = switch(
     jpk_type,
     "JPK_VAT"="JPK_VAT is not supported yet",
@@ -48,9 +50,12 @@ test002 <- function(data = NA, controlSumsFromFile = NA, jpk_type = NA) {
   if (identical(computedControlSums, controlSumsFromFile)) {
     result_test <- TRUE
   }
-  result <- list(result = result_test,
-                 controlSumsFromFile = controlSumsFromFile,
-                 computedControlSums = computedControlSums)
+  result <- list(
+    typeOfExport = "list",
+    whichIndexesExport = c(3:5),
+    result = tibble(result_test),
+    controlSumsFromFile = controlSumsFromFile,
+    computedControlSums = computedControlSums)
   return(result)
 }
 
