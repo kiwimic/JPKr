@@ -19,7 +19,8 @@ JPK_CONFIG <-
       )
     ),
     Colnames = list(Faktura = ALL_COLS_Faktura,
-                    FakturaWiersz = ALL_COLS_FakturaWiersz)
+                    FakturaWiersz = ALL_COLS_FakturaWiersz),
+    Col_numer_dokumentu = "P_2A"
   ),
   JPK_VAT = list(Ctrl = list(
     SprzedazCtrl = c("SprzedazCtrl", "/tns:JPK/tns:SprzedazCtrl"),
@@ -47,6 +48,10 @@ JPK_CONFIG <-
                  Colnames = list()),
   JPK_EWP = list(Ctrl = list(),
                  Tables = list(),
-                 Colnames = list())
+                 Colnames = list()),
+  InvoicePatterns = c("([A-Z_]+)[/-]([0-9]{2,4})[/-]([0-9]+)[/-]([0-9A-Z]+)",
+                      "([A-Z_]+)[/-]([0-9]+)[/-]([0-9]{2,4})[/-]([0-9A-Z]+)",
+                      "([A-Z_]+)[/-]([0-9]{2,4})[/-]([0-9]+)")
 
   )
+
