@@ -61,6 +61,11 @@ test001 <- function(data) {
     bind_cols(tibble(Metric = "NA")) %>%
     select(Metric, everything()) ->  Empty
 
-  return(bind_rows(Sumy, Min, Max, Median, Q025, Q25, Q75, Q975, Empty, LiczbaWierszy))
+  ret <- list(typeOfExport = "list",
+              whichIndexesExport = c(3),
+              summary = bind_rows(Sumy, Min, Max, Median, Q025, Q25, Q75, Q975, Empty, LiczbaWierszy)
+
+  )
+  return(ret)
 
 }
