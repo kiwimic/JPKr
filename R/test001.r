@@ -62,7 +62,8 @@ test001 <- function(data) {
     select(Metric, everything()) ->  Empty
 
   ret <- list(typeOfExport = "list",
-              whichIndexesExport = c(3),
+              testName = "test001",
+              whichIndexesExport = c(4),
               summary = bind_rows(Sumy, Min, Max, Median, Q025, Q25, Q75, Q975, Empty, LiczbaWierszy)
 
   )
