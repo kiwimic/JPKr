@@ -52,7 +52,8 @@ test002 <- function(data = NA, controlSumsFromFile = NA, jpk_type = NA) {
   }
   result <- list(
     typeOfExport = "list",
-    whichIndexesExport = c(3:5),
+    testName = "test002",
+    whichIndexesExport = c(4:6),
     result = tibble(result_test),
     controlSumsFromFile = controlSumsFromFile,
     computedControlSums = computedControlSums)

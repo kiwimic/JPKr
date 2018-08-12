@@ -43,8 +43,7 @@ test003 <- function(data = NA, jpk_type = NA) {
   )
   ret <- list(
       typeOfExport = "list",
-      whichIndexesExport = c(5),
-      jpk_type = jpk_type,
+      whichIndexesExport = c(4),
       testName = "test003",
       result = as.tibble(result)
       )
