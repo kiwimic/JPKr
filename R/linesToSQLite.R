@@ -14,7 +14,7 @@
 #'
 #' @examples
 linesToSQLite <- function(linesOfJPK = JPK_UNKNOWN_text,
-                          bufor_size = 1000,
+                          bufor_size = 10000,
                           SQLiteConnection,
                           table_name,
                           record_start,
@@ -30,8 +30,8 @@ linesToSQLite <- function(linesOfJPK = JPK_UNKNOWN_text,
   index_KC <- grep(linesOfJPK, pattern = record_end)
   LiczbaDokumentow <- length(index_ST)
   print("Wyciągnieto indexy")
-  print(index_ST[1:5])
-  print(index_KC[1:5])
+  #print(index_ST[1:5])
+  #print(index_KC[1:5])
 
   ## 0.3.2 Umieszczenie faktur w liscie####
   Record_List <- vector("list", length(index_ST))
@@ -45,9 +45,9 @@ linesToSQLite <- function(linesOfJPK = JPK_UNKNOWN_text,
 
   i <- 1
   k <- 1
-  print(paste0("Nowe i", i))
-  print(paste0("Nowe k", k))
-
+  #print(paste0("Nowe i", i))
+  #print(paste0("Nowe k", k))
+  CzasDoOdliczania <- Sys.time()
   bufor <- vector("list", bufor_size)
   for (i in 1:length(Record_List)) {
       ###0.4.3.1 Wczytanie pojedyńczego rekordu do ramki danych####
@@ -75,7 +75,8 @@ linesToSQLite <- function(linesOfJPK = JPK_UNKNOWN_text,
       data_from_bufor <- convertCharColsToNum(data_from_bufor, guess = T)
       dbWriteTable(SQLiteConnection, table_name, data_from_bufor, append = T)
       bufor <- vector("list", bufor_size)
-      print(i)
+      print(endTimePrediction(start = as.numeric(CzasDoOdliczania), index = i, lastIndex = length(Record_List), TimeFromStart = T))
+      print(endTimePrediction(start = as.numeric(CzasDoOdliczania), index = i, lastIndex = length(Record_List)))
       k <- 1
     }
 
