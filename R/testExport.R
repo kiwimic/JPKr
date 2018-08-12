@@ -17,7 +17,7 @@ testExport <- function(testReturn, export_dir) {
   indexes <- testReturn$whichIndexesExport
   jpk_type <- testReturn$jpk_type
   testName <- testReturn$testName
-  filename <- paste(testName, jpk_type, sep = "_")
+  filename <- testName
 
   result = switch(
     typeOfReturn,
@@ -36,6 +36,3 @@ testExport <- function(testReturn, export_dir) {
 
   )
 }
-
-
-
