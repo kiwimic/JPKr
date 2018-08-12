@@ -12,7 +12,9 @@
 exportJPKtoSQLite <-
   function(file_xml = "",
            file_SQL = "Plik_JPK.sqlite",
-           bufor_size = 1000) {
+           export_dir = "",
+           bufor_size = 10000,
+           useGolang = F) {
 
     time_start <- Sys.time()
     ##0.0.1 TODO#########################################
@@ -22,7 +24,14 @@ exportJPKtoSQLite <-
     ##"//d1:FakturaWierszCtrl") ####
     ## JPK_FA_STRUKTURA <- list(Ctrl, Elementy (st, kc))
     ##0.1.0 Inicjacja bazy danych SQLite (myDB)#####
-    RSQLite::dbConnect(RSQLite::SQLite(), file_SQL) -> myDB
+    if (file.exists(paste0(export_dir,"/",file_SQL))) {
+      file_SQL <- str_replace(file_SQL,
+                              pattern = "\\.sqlite",
+                              replacement = paste0("_", str_remove_all(Sys.time(), pattern = "[^0-9]"), ".sqlite"))
+    }
+
+    RSQLite::dbConnect(RSQLite::SQLite(), paste0(export_dir,"/",file_SQL)) -> myDB
+
 
     ##0.1.1 wczytanie JPK_FA#####
     JPK_UNKNOWN <- xml2::read_xml(file_xml, encoding = "UTF-8")
@@ -32,22 +41,33 @@ exportJPKtoSQLite <-
     JPK_TYPE <- getJpkType(JPK_UNKNOWN)
 
       ## Aby uniknąć ponowe wczytywanie
+    if (useGolang) {
+
+      GO_xmlToSQLite(
+        file_xml = file_xml,
+        SQLiteConnection = myDB,
+        export_dir = export_dir,
+        bufor_size = 10000,
+        jpk_type = JPK_TYPE
+      )
+
+    } else {
       readLines(file_xml, encoding = "UTF-8") %>%
-      paste(collapse = "\n") %>%
-      str_remove_all(pattern = "tns:") %>%
-      str_replace_all(pattern = ">(\\s+)?<", replacement = ">\n<") %>%
-      str_split(pattern = "\n") %>%
-      unlist() -> JPK_UNKNOWN_text
+        paste(collapse = "\n") %>%
+        str_remove_all(pattern = "tns:") %>%
+        str_replace_all(pattern = ">(\\s+)?<", replacement = ">\n<") %>%
+        str_split(pattern = "\n") %>%
+        unlist() -> JPK_UNKNOWN_text
 
-    print("Przerobienie xml do readlines trwało: ")
-    print(Sys.time() - time_v1)
+      print("Przerobienie xml do readlines trwało: ")
+      print(Sys.time() - time_v1)
 
-    ##0.1.2 Dodanie tabeli z typem JPK #####
-     dbWriteTable(myDB,
-                 name = "TYP",
-                 value = tibble(TYP = JPK_TYPE),
-                 append = F,
-                 overwrite = T)
+      ##0.1.2 Dodanie tabeli z typem JPK #####
+      dbWriteTable(myDB,
+                   name = "TYP",
+                   value = tibble(TYP = JPK_TYPE),
+                   append = F,
+                   overwrite = T)
       #JPK_CONFIG_temp <- JPK_CONFIG[[JPK_TYPE]]
       #JPK_TYPE <- "JPK_FA"
       ##0.2 Sumy kontrolne ####
@@ -64,23 +84,26 @@ exportJPKtoSQLite <-
         print(Sys.time() - time_v2)
       }
 
-    print("Teraz najdłuższe :)")
-    for (j in 1:length(JPK_CONFIG[[JPK_TYPE]][["Tables"]])) {
+      print("Teraz następuje export tabel do pliki SQLite")
+      for (j in 1:length(JPK_CONFIG[[JPK_TYPE]][["Tables"]])) {
 
-      linesToSQLite(linesOfJPK = JPK_UNKNOWN_text,
-                    bufor_size = bufor_size,
-                    SQLiteConnection = myDB,
-                    table_name = JPK_CONFIG[[JPK_TYPE]]$Tables[[j]][1],
-                    record_start = JPK_CONFIG[[JPK_TYPE]]$Tables[[j]][2],
-                    record_end = JPK_CONFIG[[JPK_TYPE]]$Tables[[j]][3],
-                    removeStringfromColnames = JPK_CONFIG[[JPK_TYPE]]$Tables[[j]][4],
-                    colnamesList = JPK_CONFIG[[JPK_TYPE]]$Colnames[[j]]
-                    )
+        print(paste0("Wczytywanie: ", JPK_CONFIG[[JPK_TYPE]]$Tables[[j]][1]))
+        linesToSQLite(linesOfJPK = JPK_UNKNOWN_text,
+                      bufor_size = bufor_size,
+                      SQLiteConnection = myDB,
+                      table_name = JPK_CONFIG[[JPK_TYPE]]$Tables[[j]][1],
+                      record_start = JPK_CONFIG[[JPK_TYPE]]$Tables[[j]][2],
+                      record_end = JPK_CONFIG[[JPK_TYPE]]$Tables[[j]][3],
+                      removeStringfromColnames = JPK_CONFIG[[JPK_TYPE]]$Tables[[j]][4],
+                      colnamesList = JPK_CONFIG[[JPK_TYPE]]$Colnames[[j]]
+        )
 
+      }
     }
     dbDisconnect(myDB)
     print("Całość trwała: ")
     print(Sys.time() - time_start)
+
     #0.9999 KONIEC FUNKCJI#####
     ######XXXXXXXXXXXXXXXXXXXXXXXXXX#########
     ## 0.3 Wczytanie JPK jako text + Struktyryzacja#####
