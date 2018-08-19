@@ -19,7 +19,18 @@ JPK_CONFIG <-
       )
     ),
     Colnames = list(Faktura = ALL_COLS_Faktura,
-                    FakturaWiersz = ALL_COLS_FakturaWiersz),
+                    FakturaWiersz = ALL_COLS_FakturaWiersz,
+                    FakturaCtrl = c("LiczbaFaktur", "WartoscFaktur"),
+                    FakturaWierszCtrl = c("LiczbaWierszyFaktur", "WartoscWierszyFaktur"),
+                    Naglowek = c("KodFormularza",
+                                  "WariantFormularza",
+                                  "CelZlozenia",
+                                  "DataWytworzeniaJPK",
+                                  "DataOd",
+                                  "DataDo",
+                                  "DomyslnyKodWaluty",
+                                  "KodUrzedu"
+                    )),
     Col_numer_dokumentu = "P_2A"
   ),
   JPK_VAT = list(Ctrl = list(
@@ -31,8 +42,19 @@ JPK_CONFIG <-
                      ZakupyWiersz = c("ZakupWiesz", "ZakupWiersz typ=\"G\">", "</ZakupWiersz>", "^(ZakupWiersz\\.)")
                    ),
                    Colnames = list(
-                     Sprzedaz = ALL_COLS_SprzedazWiersz,
-                     Zakup = ALL_COLS_ZakupyWiersz
+                     SprzedazWiersz = ALL_COLS_SprzedazWiersz,
+                     ZakupWiersz = ALL_COLS_ZakupyWiersz,
+                     SprzedazCtrl = c("LiczbaWierszySprzedazy", "PodatekNalezny"),
+                     ZakupCtrl = c("LiczbaWierszyZakupow", "PodatekNaliczony"),
+                     Naglowek = c("KodFormularza",
+                                  "WariantFormularza",
+                                  "CelZlozenia",
+                                  "DataWytworzeniaJPK",
+                                  "DataOd",
+                                  "DataDo",
+                                  "DomyslnyKodWaluty",
+                                  "KodUrzedu"
+                                  )
                    )),
   JPK_MAG = list(Ctrl = list(),
                  Tables = list(),
@@ -52,6 +74,6 @@ JPK_CONFIG <-
   InvoicePatterns = c("([A-Z_]+)[/-]([0-9]{2,4})[/-]([0-9]+)[/-]([0-9A-Z]+)",
                       "([A-Z_]+)[/-]([0-9]+)[/-]([0-9]{2,4})[/-]([0-9A-Z]+)",
                       "([A-Z_]+)[/-]([0-9]{2,4})[/-]([0-9]+)")
-
   )
+
 
