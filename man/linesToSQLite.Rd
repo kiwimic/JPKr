@@ -4,7 +4,7 @@
 \alias{linesToSQLite}
 \title{linesToSQLite}
 \usage{
-linesToSQLite(linesOfJPK = JPK_UNKNOWN_text, bufor_size = 1000,
+linesToSQLite(linesOfJPK = JPK_UNKNOWN_text, bufor_size = 10000,
   SQLiteConnection, table_name, record_start, record_end,
   removeStringfromColnames = "^(Faktura\\\\.)", colnamesList)
 }

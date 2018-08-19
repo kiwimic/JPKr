@@ -6,7 +6,7 @@
 function generate SQLite file with tables with records of JPK file.}
 \usage{
 exportJPKtoSQLite(file_xml = "", file_SQL = "Plik_JPK.sqlite",
-  bufor_size = 1000)
+  export_dir = "", bufor_size = 10000, useGolang = F)
 }
 \arguments{
 \item{file_xml}{path to xml file}
