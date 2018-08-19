@@ -47,9 +47,11 @@ GO_xmlToSQLite <- function(file_xml = "",
 
 
   #################
-  NazwyPlikow       <- list.files(path = CSV_dir, pattern = "(.txt)$")
+  #NazwyPlikow       <- list.files(path = CSV_dir, pattern = "(.txt)$")
   LokalizacjePlikow <- list.files(path = CSV_dir, pattern = "(.txt)$", full.names = T)
+  NazwyPlikow <- str_remove(LokalizacjePlikow, pattern = CSV_dir)
   NazwyPlikow <- str_remove(NazwyPlikow, pattern = "(.txt)$")
+  NazwyPlikow <- str_remove(NazwyPlikow, pattern = "/")
 
   print("Lokalizacaje plików to: ")
   print(LokalizacjePlikow)
@@ -58,18 +60,38 @@ GO_xmlToSQLite <- function(file_xml = "",
                value = tibble(TYP = jpk_type),
                append = F,
                overwrite = T)
-
+  print("Zapisano: TYP")
   for (i in 1:length(LokalizacjePlikow)) {
     Nazwa <- NazwyPlikow[i]
     Lokalizacja <- LokalizacjePlikow[i]
     col_names <- JPK_CONFIG[[jpk_type]]$Colnames[[Nazwa]]
-    temp_read <- read_csv2(file = Lokalizacja,
-                           col_names = F)
+    print(paste0("jpk_type: ", jpk_type))
+    print(paste0("Nazwa: ", Nazwa))
+    print(col_names)
+
+
+    cat(paste0("Procesujemy:", Nazwa, "\n",
+               "Z lokalizacji: ", Lokalizacja, "\n"))
+
+     temp_read <- read.table(file = Lokalizacja,
+               sep = ";",
+               header = F,
+               dec = ".",
+               quote = "",
+               allowEscapes = F,
+               comment.char = "",
+               fill = T,
+               stringsAsFactors = F,
+               encoding = "UTF-8")
 
     colnames(temp_read) <- col_names
+
     temp_read <- AddMissingColsAndFillWith0(df = temp_read, ALL_COLS = col_names)
+
     temp_read <- convertCharColsToNum(df = temp_read, guess = T)
-    dbWriteTable(SQLiteConnection, Nazwa, temp_read, append = T)
+    print("Kilka pierwszych wierszy tabeli: ")
+    print(head(temp_read))
+    dbWriteTable(conn = SQLiteConnection, name = Nazwa, value = temp_read, append = T)
     print(paste0("Zapisano: ", Nazwa))
   }
 }
