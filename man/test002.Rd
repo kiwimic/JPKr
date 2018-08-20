@@ -4,7 +4,7 @@
 \alias{test002}
 \title{test002 Sluzy do zweryfikowania sum kontrolnych z pliku JPK}
 \usage{
-test002(data = NA, controlSumsFromFile = NA, jpk_type = NA)
+test002(data = NA, controlSumsFromFile = NA, tableName = NA)
 }
 \arguments{
 \item{data}{must be converted to numeric data.frame with JPK FA, or JPK_VAT}

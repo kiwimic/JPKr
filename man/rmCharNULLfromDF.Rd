@@ -9,6 +9,9 @@ rmCharNULLfromDF(df)
 \arguments{
 \item{df}{data frame JPK record}
 }
+\value{
+df with replaced all character NULL's to 0
+}
 \description{
 rmCharNULLfromDF In JPK files NA values are like character 'NULL'. This funcion replaces 'NULL's' with '0'
 }

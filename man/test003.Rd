@@ -4,7 +4,7 @@
 \alias{test003}
 \title{test003 Sluzy do zweryfikowania koncentracji dla danego NIP z pliku JPK}
 \usage{
-test003(data = NA, jpk_type = NA)
+test003(data = NA, tableName = NA)
 }
 \arguments{
 \item{data}{must be converted to numeric data.frame with JPK FA, or JPK_VAT}

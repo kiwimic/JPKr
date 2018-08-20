@@ -2,14 +2,25 @@
 % Please edit documentation in R/GO_xmlToSQLite.R
 \name{GO_xmlToSQLite}
 \alias{GO_xmlToSQLite}
-\title{Title}
+\title{Fun which use golang to fast parse xml jpk file and write csv with ";"}
 \usage{
 GO_xmlToSQLite(file_xml = "", SQLiteConnection = myDB, export_dir = "",
   bufor_size = 10000, jpk_type = JPK_TYPE)
 }
 \arguments{
-\item{jpk_type}{}
+\item{file_xml}{location of xml file}
+
+\item{SQLiteConnection}{conn to SQLite file}
+
+\item{export_dir}{directory where csv files will be written}
+
+\item{bufor_size}{size of one time write to connection}
+
+\item{jpk_type}{type of jpk for example "JPK_VAT", "JPK_FA"}
+}
+\value{
+csv files of with lines of jpk tables and sqlconnection filled with this files
 }
 \description{
-Title
+Fun which use golang to fast parse xml jpk file and write csv with ";"
 }

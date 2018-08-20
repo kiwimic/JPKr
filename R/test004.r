@@ -1,5 +1,7 @@
 
-#' test004 Sluzy do podsumowania kontrahentow w podziale na polski i zagraniczny NIP
+#' test004
+#' Sluzy do podsumowania kontrahentow w podziale na polski i zagraniczny NIP
+#' T/F czy polski nip, NIP kontrahenta, nazwa kontrahenta, wartosc dokumentow, liczba dokumentow
 #'
 #' @param data must be converted to numeric data.frame with JPK FA, or JPK_VAT
 #'

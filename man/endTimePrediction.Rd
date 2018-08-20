@@ -8,6 +8,12 @@ endTimePrediction(start, index, lastIndex, TimeFromStart = F)
 }
 \arguments{
 \item{start}{numericPositict}
+
+\item{index}{numeric index from loop like 1,2,3, ... n}
+
+\item{lastIndex}{last index. end of loop}
+
+\item{TimeFromStart}{T/F For measuring not how much time left, but how much time passed}
 }
 \value{
 character string with prediction of time left

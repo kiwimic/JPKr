@@ -13,7 +13,14 @@ exportJPKtoSQLite(file_xml = "", file_SQL = "Plik_JPK.sqlite",
 
 \item{file_SQL}{name of sqlfile you want to create 'remember to add .sqlite at the end'}
 
+\item{export_dir}{dir where you want o save SQLite file}
+
 \item{bufor_size}{size of single instert of records you want to write to sqlite base. Default is 1000}
+
+\item{UseGolang}{T/F param to use golang for faster parsing xml files. 400mb file on my PC is 3h with pure R, and 1,5miniwht GO}
+}
+\value{
+SQLite db filled with parsed JPK file
 }
 \description{
 exportJPKtoSQLite is doing parsing JPK elemens for example from "Faktura" table of JPK_FA file single record is between this characters "<Faktura typ=\"G\">","</Faktura>",

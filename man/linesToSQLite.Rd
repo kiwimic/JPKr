@@ -25,6 +25,9 @@ linesToSQLite(linesOfJPK = JPK_UNKNOWN_text, bufor_size = 10000,
 
 \item{file_xml}{path to JPK xml file}
 }
+\value{
+SQLite file
+}
 \description{
 linesToSQLite
 }
