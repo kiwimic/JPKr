@@ -7,7 +7,7 @@
 #'
 #'
 #'
-#'
+#'@export
 AddMissingColsAndFillWith0 <- function(df, ALL_COLS) {
 if (sum(colnames(df) %in% ALL_COLS) == length(ALL_COLS)) {
   ret <- df[,ALL_COLS]

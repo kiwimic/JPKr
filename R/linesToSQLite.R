@@ -9,10 +9,10 @@
 #' @param removeStringfromColnames record end
 #' @param colnamesList record end
 #'
-#' @return
+#' @return SQLite file
 #' @export
 #'
-#' @examples
+#'
 linesToSQLite <- function(linesOfJPK = JPK_UNKNOWN_text,
                           bufor_size = 10000,
                           SQLiteConnection,

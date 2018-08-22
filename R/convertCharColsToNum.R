@@ -7,7 +7,7 @@ library(tibble)
 #'
 #' @return returns tibble (kind of data.frame) where cols which are only numeric (but class character), are converted to numeric
 #'
-#'
+#' @export
 #' @seealso \code{\link{as.tibble}}
 convertCharColsToNum <- function(df, colsToConv, guess = F) {
   if (!(is.data.frame(df) | is.tibble(df))) {

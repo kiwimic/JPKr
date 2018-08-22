@@ -7,7 +7,7 @@
 #' @return pointer to xml file
 #'
 #'
-#'
+#' @export
 getPointerOfXML <- function(file_xml = "") {
   readit <- NULL
   if (!is.character(file_xml)|is.na(file_xml)) {

@@ -7,7 +7,7 @@
 #' @return numeric tibble with control sums
 #' @export
 #'
-#' @examples
+#'
 getControlSums <- function(linesOfJPK = JPK_UNKNOWN_text, pattern = JPK_CONFIG$JPK_FA$Ctrl[[1]][[1]]) {
   # if (sum(class(pointer_of_file_xml) %in% c("xml_document", "xml_node"))==0) {
   #   stop(sprintf("pointer_of_file_xml needs to be class 'xml_document, xml_node', not %s", class(pointer_of_file_xml)))

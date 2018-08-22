@@ -5,10 +5,10 @@ library(tibble)
 #'
 #' @param df data frame JPK record
 #'
-#' @return
+#' @return df with replaced all character NULL's to 0
 #' @export
 #'
-#' @examples
+#'
 rmCharNULLfromDF <- function(df) {
   if (!(is.data.frame(df)|is.tibble(df))) {
     stop(sprintf("Please pass data.frame or tibble as df argument Argument you just pass is class: %s", class(df)))

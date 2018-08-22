@@ -6,7 +6,7 @@
 #' @return character vector with type of JPK file like 'JPK_FA', 'JPK_VAT'
 #' @export
 #'
-#' @examples
+#'
 getJpkType <- function(pointer_of_file_xml) {
   if (sum(class(pointer_of_file_xml) %in% c("xml_document", "xml_node"))==0) {
     stop(sprintf("pointer_of_file_xml needs to be class 'xml_document, xml_node', not %s", class(pointer_of_file_xml)))

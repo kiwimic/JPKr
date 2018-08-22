@@ -2,11 +2,14 @@
 #' endTimePrediction Służy do obliczenia ile pozostało czasu przy wczytaniu pliki.
 #'
 #' @param start numericPositict
+#' @param index numeric index from loop like 1,2,3, ... n
+#' @param lastIndex last index. end of loop
+#' @param TimeFromStart T/F For measuring not how much time left, but how much time passed
 #'
 #' @return character string with prediction of time left
 #' @export
 #'
-#' @examples
+#'
 endTimePrediction <- function(start, index, lastIndex, TimeFromStart = F) {
   start <- as.numeric(start)
   now <- as.numeric(Sys.time())
