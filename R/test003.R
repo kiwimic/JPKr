@@ -8,10 +8,10 @@
 #'
 #' @export
 #'
-#' @examples
-test003 <- function(data = NA, jpk_type = NA) {
+#'
+test003 <- function(data = NA, tableName = NA) {
   if (is.na(jpk_type)) {
-    stop(sprintf("please pass jpk_type argument in test002 function"))
+    stop(sprintf("please pass tableName argument in test003 function"))
   }
   if ((sum(class(data) %in% c("data.frame", "tibble", "tbl_df"))==0)) {
     stop(sprintf("data needs to be class 'data.frame, tibble, tbl_df', not %s", class(data)))
@@ -19,9 +19,9 @@ test003 <- function(data = NA, jpk_type = NA) {
 
 
   result = switch(
-    jpk_type,
+    tableName,
     "JPK_VAT"="JPK_VAT is not supported yet",
-    "JPK_FA"= {
+    "Faktura"= {
 
     data %>%
        group_by(P_5B, P_3A) %>%
@@ -43,9 +43,8 @@ test003 <- function(data = NA, jpk_type = NA) {
   )
   ret <- list(
       typeOfExport = "list",
-      whichIndexesExport = c(4),
       testName = "test003",
-      result = as.tibble(result)
+      export = list(result = as.tibble(result))
       )
   return(ret)
 }
