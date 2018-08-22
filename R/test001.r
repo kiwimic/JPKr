@@ -6,7 +6,7 @@
 #' @return a tibble with some metric: sum, median, mean and etc..
 #' @export
 #'
-#' @examples
+#'
 test001 <- function(data) {
 
   data %>%
@@ -63,9 +63,7 @@ test001 <- function(data) {
 
   ret <- list(typeOfExport = "list",
               testName = "test001",
-              whichIndexesExport = c(4),
-              summary = bind_rows(Sumy, Min, Max, Median, Q025, Q25, Q75, Q975, Empty, LiczbaWierszy)
-
+              export = list(summary = bind_rows(Sumy, Min, Max, Median, Q025, Q25, Q75, Q975, Empty, LiczbaWierszy))
   )
   return(ret)
 
