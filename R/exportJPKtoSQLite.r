@@ -18,7 +18,8 @@ exportJPKtoSQLite <-
            bufor_size = 10000,
            useGolang = F,
            argParse = NA,
-           useGObinary = F) {
+           useGObinary = F,
+           binary_dir = 'C:\\msiwik\\Desktop\\FOLDER R\\JPK\\jpk.exe') {
 
     time_start <- Sys.time()
     NazwyPlikow_TIME <- str_remove_all(time_start, pattern = "[^0-9]")
@@ -59,7 +60,8 @@ exportJPKtoSQLite <-
         bufor_size = 10000,
         jpk_type = JPK_TYPE,
         NazwyPlikow_TIME = NazwyPlikow_TIME,
-        useGObinary = useGObinary
+        useGObinary = useGObinary,
+        binary_dir = 'C:\\msiwik\\Desktop\\FOLDER R\\JPK\\jpk.exe'
       )
 
     } else {
