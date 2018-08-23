@@ -19,7 +19,8 @@
                            jpk_type = JPK_TYPE,
                            argParse = NA,
                            NazwyPlikow_TIME = NA,
-                           useGObinary = useGObinary) {
+                           useGObinary = useGObinary,
+                           binary_dir = 'C:\\msiwik\\Desktop\\FOLDER R\\JPK\\jpk.exe') {
 
   #### Przygotowanie ścieżek pod GO ####
    # if (!is.na(argParse[[1]])) {
@@ -69,7 +70,7 @@
   #### Komenda golang #####
   command <- paste0('jpk ', jpk_type_GO, ' --file ', file_xml_Q,' --dir ',CSV_dir_Q)
   if (useGObinary) {
-    command <- paste0(shQuote('C:\\Users\\msiwik\\Desktop\\FOLDER R\\JPK\\jpk.exe'),' ', jpk_type_GO, ' --file ', file_xml_Q,' --dir ',CSV_dir_Q)
+    command <- paste0(shQuote(binary_dir),' ', jpk_type_GO, ' --file ', file_xml_Q,' --dir ',CSV_dir_Q)
   }
   system(
     command
