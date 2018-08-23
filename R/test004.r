@@ -7,10 +7,8 @@
 #'
 #' @return return tibble with summarise of values, counts, max, min, of documents for one NIP
 #'
+#'@export
 #'
-#' @export
-#'
-#' @examples
 test004 <- function(data = NA, tableName = NA) {
   if (is.na(tableName)) {
     stop(sprintf("please pass tableName argument in test04 function"))
