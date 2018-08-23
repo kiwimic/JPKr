@@ -3,20 +3,29 @@
 #' function generate SQLite file with tables with records of JPK file.
 #' @param file_xml path to xml file
 #' @param file_SQL name of sqlfile you want to create 'remember to add .sqlite at the end'
+#' @param export_dir dir where you want o save SQLite file
 #' @param bufor_size size of single instert of records you want to write to sqlite base. Default is 1000
+#' @param UseGolang T/F param to use golang for faster parsing xml files. 400mb file on my PC is 3h with pure R, and 1,5miniwht GO
 #'
-#' @return
+#' @return SQLite db filled with parsed JPK file
 #' @export
 #'
-#' @examples
+#'
 exportJPKtoSQLite <-
   function(file_xml = "",
            file_SQL = "Plik_JPK.sqlite",
            export_dir = "",
            bufor_size = 10000,
-           useGolang = F) {
+           useGolang = F,
+           argParse = NA,
+           useGObinary = F) {
 
     time_start <- Sys.time()
+    NazwyPlikow_TIME <- str_remove_all(time_start, pattern = "[^0-9]")
+
+    if (!dir.exists(export_dir)) {
+      dir.create(path = export_dir)
+    }
     ##0.0.1 TODO#########################################
     ##0.0.1.1 Pobrać nagłowek i guessJpkType() #####
     ##0.0.1.2 Uniezależnić kod od rodzaju pliku JPK####
@@ -27,7 +36,7 @@ exportJPKtoSQLite <-
     if (file.exists(paste0(export_dir,"/",file_SQL))) {
       file_SQL <- str_replace(file_SQL,
                               pattern = "\\.sqlite",
-                              replacement = paste0("_", str_remove_all(Sys.time(), pattern = "[^0-9]"), ".sqlite"))
+                              replacement = paste0("_", NazwyPlikow_TIME, ".sqlite"))
     }
 
     RSQLite::dbConnect(RSQLite::SQLite(), paste0(export_dir,"/",file_SQL)) -> myDB
@@ -48,7 +57,9 @@ exportJPKtoSQLite <-
         SQLiteConnection = myDB,
         export_dir = export_dir,
         bufor_size = 10000,
-        jpk_type = JPK_TYPE
+        jpk_type = JPK_TYPE,
+        NazwyPlikow_TIME = NazwyPlikow_TIME,
+        useGObinary = useGObinary
       )
 
     } else {
