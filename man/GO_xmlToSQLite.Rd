@@ -5,7 +5,8 @@
 \title{Fun which use golang to fast parse xml jpk file and write csv with ";"}
 \usage{
 GO_xmlToSQLite(file_xml = "", SQLiteConnection = myDB, export_dir = "",
-  bufor_size = 10000, jpk_type = JPK_TYPE)
+  bufor_size = 10000, jpk_type = JPK_TYPE, argParse = NA,
+  NazwyPlikow_TIME = NA, useGObinary = useGObinary)
 }
 \arguments{
 \item{file_xml}{location of xml file}
