@@ -12,7 +12,7 @@ library(stringr)
 #' @examples validatevalidationOfPolishNIP
 isPolishNIP <- Vectorize(FUN = function(NIP) {
   ret <- FALSE
-
+ if (!is.na(NIP)) {
   if (nchar(NIP) < 10) {
     ret <- FALSE
   } else {
@@ -31,6 +31,7 @@ isPolishNIP <- Vectorize(FUN = function(NIP) {
     }
 
   }
+ }
 
   return(ret)
 },vectorize.args = "NIP",
