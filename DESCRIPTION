@@ -1,7 +1,7 @@
 Package: JPKr
 Type: Package
 Title: Tools for analyzing polish JPK (Jednolity plik kontrolny) data
-Version: 0.1.0
+Version: 0.2.0
 Author: Michał Siwik
 Maintainer: The package maintainer <michalsiwik@gmail.com>
 Description: This is my first R package. Goal of it it's to create tools which will
@@ -17,7 +17,8 @@ Depends:
     writexl(>= 0.2),
     xml2(>= 1.1.1),
     RSQLite(>= 2.1.1),
-    readr(>= 1.1.1)
+    readr(>= 1.1.1),
+    tidyr(>= 0.8.1)
 Imports:
     dplyr (>= 0.7.0),
     stringr(>= 1.2.0),
@@ -26,5 +27,6 @@ Imports:
     writexl(>= 0.2),
     xml2(>= 1.1.1),
     RSQLite(>= 2.1.1),
-    readr(>= 1.1.1)
+    readr(>= 1.1.1),
+    tidyr(>= 0.8.1)
 RoxygenNote: 6.0.1
