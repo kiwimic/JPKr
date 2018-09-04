@@ -1,5 +1,6 @@
-
-#' exportJPKtoSQLite is doing parsing JPK elemens for example from "Faktura" table of JPK_FA file single record is between this characters "<Faktura typ=\"G\">","</Faktura>",
+#' @title exportJPKtoSQLite main function.
+#'
+#' @description exportJPKtoSQLite is doing parsing JPK elemens for example from "Faktura" table of JPK_FA file single record is between this characters "<Faktura typ=\"G\">","</Faktura>",
 #' function generate SQLite file with tables with records of JPK file.
 #' @param file_xml path to xml file
 #' @param file_SQL name of sqlfile you want to create 'remember to add .sqlite at the end'
@@ -19,7 +20,7 @@ exportJPKtoSQLite <-
            useGolang = F,
            argParse = NA,
            useGObinary = F,
-           binary_dir = 'C:\\msiwik\\Desktop\\FOLDER R\\JPK\\jpk.exe') {
+           binary_dir = NA) {
 
     time_start <- Sys.time()
     NazwyPlikow_TIME <- str_remove_all(time_start, pattern = "[^0-9]")
@@ -44,11 +45,11 @@ exportJPKtoSQLite <-
 
 
     ##0.1.1 wczytanie JPK_FA#####
-    JPK_UNKNOWN <- xml2::read_xml(file_xml, encoding = "UTF-8")
+    #JPK_UNKNOWN <- xml2::read_xml(file_xml, encoding = "UTF-8")
     print("Dodanie pointera trwało: ")
     print( Sys.time() - time_start)
     time_v1 <- Sys.time()
-    JPK_TYPE <- getJpkType(JPK_UNKNOWN)
+    JPK_TYPE <- JPKr::getPointerOfXML(JPK_file) %>% JPKr::getJpkType()
 
       ## Aby uniknąć ponowe wczytywanie
     if (useGolang) {
@@ -61,7 +62,7 @@ exportJPKtoSQLite <-
         jpk_type = JPK_TYPE,
         NazwyPlikow_TIME = NazwyPlikow_TIME,
         useGObinary = useGObinary,
-        binary_dir = 'C:\\msiwik\\Desktop\\FOLDER R\\JPK\\jpk.exe'
+        binary_dir = binary_dir
       )
 
     } else {
@@ -116,7 +117,7 @@ exportJPKtoSQLite <-
     dbDisconnect(myDB)
     print("Całość trwała: ")
     print(Sys.time() - time_start)
-
+    return(file_SQL)
     #0.9999 KONIEC FUNKCJI#####
     ######XXXXXXXXXXXXXXXXXXXXXXXXXX#########
     ## 0.3 Wczytanie JPK jako text + Struktyryzacja#####
