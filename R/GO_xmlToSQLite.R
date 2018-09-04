@@ -20,7 +20,7 @@
                            argParse = NA,
                            NazwyPlikow_TIME = NA,
                            useGObinary = useGObinary,
-                           binary_dir = 'C:\\msiwik\\Desktop\\FOLDER R\\JPK\\jpk.exe') {
+                           binary_dir = NA) {
 
   #### Przygotowanie ścieżek pod GO ####
    # if (!is.na(argParse[[1]])) {
@@ -32,6 +32,9 @@
    #     dir.create(path = CSV_dir)
    #   }
    # } else {
+
+
+
      file_xml_Q <- shQuote(file_xml)
 
 
@@ -69,12 +72,14 @@
 
   #### Komenda golang #####
   command <- paste0('jpk ', jpk_type_GO, ' --file ', file_xml_Q,' --dir ',CSV_dir_Q)
+  print(command)
   if (useGObinary) {
     command <- paste0(shQuote(binary_dir),' ', jpk_type_GO, ' --file ', file_xml_Q,' --dir ',CSV_dir_Q)
+    print(command)
   }
-  system(
-    command
-  )
+
+  system(command)
+
 
 
   #################
@@ -105,17 +110,43 @@
     cat(paste0("Procesujemy:", Nazwa, "\n",
                "Z lokalizacji: ", Lokalizacja, "\n"))
 
-     temp_read <- read.table(file = Lokalizacja,
-               sep = ";",
-               header = F,
-               dec = ".",
-               quote = "",
-               allowEscapes = F,
-               comment.char = "",
-               fill = T,
-               stringsAsFactors = F,
-               encoding = "UTF-8")
+    temp_read  <- tryCatch({
+      read.table(
+        file = Lokalizacja,
+        sep = ";",
+        header = F,
+        dec = ".",
+        quote = "",
+        allowEscapes = F,
+        comment.char = "",
+        fill = T,
+        stringsAsFactors = F,
+        encoding = "UTF-8"
+      )
+    }, warning = function(w) {
+      ret <- read.table(
+        file = Lokalizacja,
+        sep = ";",
+        header = F,
+        dec = ".",
+        quote = "",
+        allowEscapes = F,
+        comment.char = "",
+        fill = T,
+        stringsAsFactors = F,
+        encoding = "UTF-8"
+      )
+      return(ret)
+    }, error = function(e) {
+      dd <- data.frame(matrix(ncol = length(col_names), nrow = 0))
+      colnames(dd) <- col_names
 
+      return(dd)
+    }, finally = {
+
+    })
+
+    temp_read <- as.tibble(temp_read)
     colnames(temp_read) <- col_names
 
     temp_read <- AddMissingColsAndFillWith0(df = temp_read, ALL_COLS = col_names)
