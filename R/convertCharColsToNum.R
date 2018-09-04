@@ -27,8 +27,15 @@ convertCharColsToNum <- function(df, colsToConv, guess = F) {
     sumOfNA <- apply(df2, 2, function(x) {
       return(sum(is.na(x)))
     })
-    df[,sumOfNA==sumOfNA_before] <- as.tibble(lapply(df[,sumOfNA == sumOfNA_before], as.numeric))
-    df <- as.tibble(df)
+
+    if (sum(sumOfNA==sumOfNA_before) == 1) {
+      indexOfSingleTRUE <- which(x = sumOfNA==sumOfNA_before, T)
+      df[[indexOfSingleTRUE]] <- as.numeric(df[[indexOfSingleTRUE]])
+      df <- as.tibble(df)
+    } else {
+      df[,sumOfNA==sumOfNA_before] <- as.tibble(lapply(df[,sumOfNA == sumOfNA_before], as.numeric))
+      df <- as.tibble(df)
+    }
   } else {
     df[, colsToConv] <- apply(df[, colsToConv], 2,   function(x) {
       return(as.numeric(x))
