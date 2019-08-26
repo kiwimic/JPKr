@@ -9,11 +9,13 @@ library(tibble)
 #'
 #' @export
 #' @seealso \code{\link{as.tibble}}
+#'
+#'
 convertCharColsToNum <- function(df, colsToConv, guess = F) {
   if (!(is.data.frame(df) | is.tibble(df))) {
     stop(
       sprintf(
-        "Please pass data.frame or tibble as df argument Argument you just pass is class: %s",
+        "Please pass data.frame or tibble as df argument Argument you just passed is class: %s",
         class(df)
       )
     )
