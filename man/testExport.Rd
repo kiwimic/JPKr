@@ -4,7 +4,7 @@
 \alias{testExport}
 \title{test001 Służy do obliczenia sum kontrolnych.}
 \usage{
-testExport(testReturn, export_dir)
+testExport(testReturn, export_dir, customFileName = NA)
 }
 \arguments{
 \item{testReturn}{must be list which is returned after one of test fun test001, 002 ...}

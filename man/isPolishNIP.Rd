@@ -17,4 +17,5 @@ Title function checks if NIP number 'Polish company indetyfication number' is fr
 }
 \examples{
 validatevalidationOfPolishNIP
+
 }

@@ -2,11 +2,11 @@
 % Please edit documentation in R/exportJPKtoSQLite.r
 \name{exportJPKtoSQLite}
 \alias{exportJPKtoSQLite}
-\title{exportJPKtoSQLite is doing parsing JPK elemens for example from "Faktura" table of JPK_FA file single record is between this characters "<Faktura typ=\"G\">","</Faktura>",
-function generate SQLite file with tables with records of JPK file.}
+\title{exportJPKtoSQLite main function.}
 \usage{
 exportJPKtoSQLite(file_xml = "", file_SQL = "Plik_JPK.sqlite",
-  export_dir = "", bufor_size = 10000, useGolang = F)
+  export_dir = "", bufor_size = 10000, pathToBinary = Sys.getenv(x =
+  "JPKr_GO_BINARY"))
 }
 \arguments{
 \item{file_xml}{path to xml file}
