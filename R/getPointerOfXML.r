@@ -1,5 +1,3 @@
-
-
 #' getPointerOfXML xml2::read_xml(x = file_xml)
 #'
 #' @param file_xml
@@ -15,7 +13,5 @@ getPointerOfXML <- function(file_xml = "") {
   } else {
     readit <- xml2::read_xml(x = file_xml)
   }
-
-
 return(readit)
 }
