@@ -1,6 +1,3 @@
-library(stringr)
-
-
 ## Wektorowa wersja funkcji do walidacji NIP (działa w ramkach danych)#########
 #' Title function checks if NIP number 'Polish company indetyfication number' is from Poland 'TRUE' or not 'FALSE'
 #'
@@ -10,6 +7,7 @@ library(stringr)
 #' @export
 #'
 #' @examples validatevalidationOfPolishNIP
+#'
 isPolishNIP <- Vectorize(FUN = function(NIP) {
   ret <- FALSE
  if (!is.na(NIP)) {
